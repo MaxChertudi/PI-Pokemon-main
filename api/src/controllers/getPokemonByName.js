@@ -14,8 +14,8 @@ const getPokemonByName = async(req, res) => {
             attack: apiResult.data.stats[1].base_stat,
             defense: apiResult.data.stats[2].base_stat,
             speed: apiResult.data.stats[5].base_stat, 
-            height: apiResult.height,
-            weight: apiResult.weight
+            height: apiResult.data.height,
+            weight: apiResult.data.weight
         }
         res.status(200).json(obj);
     }
