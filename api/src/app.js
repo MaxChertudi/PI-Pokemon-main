@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const routes = require('./routes/index.js');
+const dbPopulateTypes = require('./database/dbPopulateTypes.js');
+const dbInit = require('./database/dbInit.js');
 
 const server = express();
 server.name = 'API';
@@ -31,5 +33,8 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(status).send(message);
 });
 
+// Initializa db and Populate Type table from Pokemons API
+dbInit();
+dbPopulateTypes();
 
 module.exports = server;
