@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS public."Pokemons"
 
 TABLESPACE pg_default;
 
+ALTER SEQUENCE "Pokemons_id_seq" RESTART WITH 2000;
+
 -- Table: public.Types
 
 -- DROP TABLE IF EXISTS public."Types";

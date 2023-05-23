@@ -9,11 +9,14 @@ const getPokemonById = async(req, res) => {
         if (dbSearch) {
             // Find associated types in db
             const types = await dbSearch.getTypes();
+            
             // extract type names from result
-            const typeNames = types.map(type => type.dataValues.name);
-            dbSearch.datavalues.type = typeNames;
-            console.log(dbSearch);
-            res.status(200).json(dbSearch);
+            const typeNames = types.map((type) => type.dataValues.name);
+            const objTypeNames = { Type: typeNames};
+
+            // Merge pokemon data with associated Types 
+            const obj = {...dbSearch.dataValues, ...objTypeNames};
+            res.status(200).json(obj);
         } else {
             const endpoint = "https://pokeapi.co/api/v2/pokemon/";
             const apiResult =  await axios(endpoint+p_id);
