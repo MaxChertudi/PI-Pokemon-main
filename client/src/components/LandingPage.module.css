@@ -1,0 +1,71 @@
+.buttonholder {
+  margin: 0;
+  position: absolute;
+  top: 92%;
+  left: 35%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 50px;
+}
+
+.landing {
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  width: 760px;
+  height: 475px;
+  background-image: url('../images/landing.webp');
+  border-radius: 55px;
+  border: 2px;
+  margin: 0;
+  position: absolute;
+  top: 10%;
+  left: 30%;
+}
+
+.title {
+  margin: 0;
+  color: crimson;
+  font-size: 50px;
+  font-weight: 900;
+}
+
+  .boton {
+    color: black;
+    font-size: larger;
+    width: 10%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(62, 223, 97);
+    float:right
+  }
+  .boton2 {
+    position: absolute;
+    right: 50;
+    bottom: 0;
+    background: #e62143;
+    border-radius: 11px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: Mija, -apple-system, BlinkMacSystemFont, Roboto, "Roboto Slab",
+      "Droid Serif", "Segoe UI", system-ui, Arial, sans-serif;
+    font-size: 1.15em;
+    justify-content: center;
+    padding: 0.1rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    text-decoration-skip-ink: auto;
+    text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px;
+    text-underline-offset: 1px;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 2.4Srem;
+    height: 2rem;
+    word-break: break-word;
+    border: 20;
+  }
+  
