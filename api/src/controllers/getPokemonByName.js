@@ -4,6 +4,7 @@ const { Pokemon } = require('../db.js');
 const getPokemonByName = async(req, res) => {
     try {
         const p_name = req.query.name.toLowerCase();
+        // try first in local db
         const dbSearch = await Pokemon.findOne( { where: { name: p_name} } );
         if (dbSearch) {
             // Find associated types in db
@@ -14,7 +15,7 @@ const getPokemonByName = async(req, res) => {
             const objTypeNames = { Type: typeNames};
 
             // Merge pokemon data with associated Types 
-            const obj = {...dbSearch.dataValues, ...objTypeNames};
+            const obj = {...dbSearch.dataValues, ...objTypeNames, Source: 'db'};
             res.status(200).json(obj);
         } else {
             const endpoint = "https://pokeapi.co/api/v2/pokemon/";
@@ -29,7 +30,8 @@ const getPokemonByName = async(req, res) => {
                 defense: apiResult.data.stats[2].base_stat,
                 speed: apiResult.data.stats[5].base_stat, 
                 height: apiResult.data.height,
-                weight: apiResult.data.weight
+                weight: apiResult.data.weight,
+                Source: 'api'
             }
             res.status(200).json(obj);
         }

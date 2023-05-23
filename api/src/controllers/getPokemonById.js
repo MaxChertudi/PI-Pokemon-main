@@ -15,7 +15,7 @@ const getPokemonById = async(req, res) => {
             const objTypeNames = { Type: typeNames};
 
             // Merge pokemon data with associated Types 
-            const obj = {...dbSearch.dataValues, ...objTypeNames};
+            const obj = {...dbSearch.dataValues, ...objTypeNames, Source: 'db'};
             res.status(200).json(obj);
         } else {
             const endpoint = "https://pokeapi.co/api/v2/pokemon/";
@@ -30,7 +30,8 @@ const getPokemonById = async(req, res) => {
                 defense: apiResult.data.stats[2].base_stat,
                 speed: apiResult.data.stats[5].base_stat,
                 height: apiResult.data.height,
-                weight: apiResult.data.weight
+                weight: apiResult.data.weight,
+                Source: 'api'
             }   
             res.status(200).json(obj);
         }

@@ -1,7 +1,13 @@
 const axios = require('axios');
+const dbGetAllPokemons = require('../database/dbGetAllPokemons');
 
 const getAllPokemons = async(req, res) => {
     try {
+        // Gather db data 
+        const dbPokemons = await dbGetAllPokemons();
+//console.log('dbpokemons;',dbPokemons);
+
+        // gAther API data
         const endpointAll = "https://pokeapi.co/api/v2/pokemon/";
         const apiResultAll =  await axios(endpointAll);
         const arrPokemons = apiResultAll.data.results;
@@ -19,7 +25,8 @@ const getAllPokemons = async(req, res) => {
                 defense: apiResult.data.stats[2].base_stat,
                 speed: apiResult.data.stats[5].base_stat,
                 height: apiResult.data.height,
-                weight: apiResult.data.weight
+                weight: apiResult.data.weight,
+                Source: 'api'
             }
             arrResult.push(obj);
         }

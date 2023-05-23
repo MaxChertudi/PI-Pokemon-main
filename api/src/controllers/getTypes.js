@@ -1,4 +1,5 @@
 const dbGetTypes = require('../database/dbGetTypes.js')
+
 const getTypes =  async (req, res, next) => {
     try {
         const result = await dbGetTypes();
