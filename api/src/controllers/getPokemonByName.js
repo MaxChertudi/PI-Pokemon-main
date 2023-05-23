@@ -19,25 +19,27 @@ const getPokemonByName = async(req, res) => {
             res.status(200).json(obj);
         } else {
             const endpoint = "https://pokeapi.co/api/v2/pokemon/";
-            const apiResult = await axios(endpoint+p_name);
-            const obj = { 
-                id: apiResult.data.id,
-                name: apiResult.data.name,
-                image: apiResult.data.sprites.front_default,
-                type: apiResult.data.types.map((type) => type.type.name),
-                health: apiResult.data.stats[0].base_stat,
-                attack: apiResult.data.stats[1].base_stat,
-                defense: apiResult.data.stats[2].base_stat,
-                speed: apiResult.data.stats[5].base_stat, 
-                height: apiResult.data.height,
-                weight: apiResult.data.weight,
-                Source: 'api'
+            const apiResult = await axios(endpoint + p_name);
+            if (apiResult) {
+                const obj = { 
+                    id: apiResult.data.id,
+                    name: apiResult.data.name,
+                    image: apiResult.data.sprites.front_default,
+                    type: apiResult.data.types.map((type) => type.type.name),
+                    health: apiResult.data.stats[0].base_stat,
+                    attack: apiResult.data.stats[1].base_stat,
+                    defense: apiResult.data.stats[2].base_stat,
+                    speed: apiResult.data.stats[5].base_stat, 
+                    height: apiResult.data.height,
+                    weight: apiResult.data.weight,
+                    Source: 'api'
+                }
+                res.status(200).json(obj);
             }
-            res.status(200).json(obj);
         }
     }
     catch(error) {
-        res.status(500).send(error.message);
+        res.status(401).send('Pokemon name not found')
     }
 } 
 module.exports = getPokemonByName; 

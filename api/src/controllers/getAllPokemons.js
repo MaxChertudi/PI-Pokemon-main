@@ -5,8 +5,6 @@ const getAllPokemons = async(req, res) => {
     try {
         // Gather db data 
         const dbPokemons = await dbGetAllPokemons();
-//console.log('dbpokemons;',dbPokemons);
-
         // gAther API data
         const endpointAll = "https://pokeapi.co/api/v2/pokemon/";
         const apiResultAll =  await axios(endpointAll);
@@ -19,18 +17,20 @@ const getAllPokemons = async(req, res) => {
                 id: apiResult.data.id,
                 name: apiResult.data.name,
                 image: apiResult.data.sprites.front_default,
-                type: apiResult.data.types.map((type) => type.type.name),
                 health: apiResult.data.stats[0].base_stat,
                 attack: apiResult.data.stats[1].base_stat,
                 defense: apiResult.data.stats[2].base_stat,
                 speed: apiResult.data.stats[5].base_stat,
                 height: apiResult.data.height,
                 weight: apiResult.data.weight,
+                Types: apiResult.data.types.map((type) => type.type.name),
                 Source: 'api'
             }
             arrResult.push(obj);
         }
-        res.status(200).json(arrResult);
+        // Consolidate data from db and api
+        const arrResultAll = arrResult.concat(dbPokemons);
+        res.status(200).json(arrResultAll);
     } catch(error) {
         res.status(500).send(error.message);
     }

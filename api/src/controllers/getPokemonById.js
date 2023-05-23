@@ -37,7 +37,7 @@ const getPokemonById = async(req, res) => {
         }
     }
     catch(error) {
-        res.status(500).send(error.message);
+        res.status(401).send('Pokemon ID not found')
     }
 } 
 module.exports = getPokemonById; 
