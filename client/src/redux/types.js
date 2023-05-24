@@ -1,5 +1,8 @@
-export const ADD_FAV = 'ADD_FAV';
-export const REMOVE_FAV = 'REMOVE_FAV';
-export const FILTER = 'FILTER';
+export const GET_POKEMONS = 'GET_POKEMONS';
+export const GET_POKEMON_ID = 'GET_POKEMON_ID';
+export const GET_POKEMON_NAME = 'GET_POKEMON_NAME';
+export const SAVE_POKEMON = 'SAVE_POKEMON';
 export const ORDER = 'ORDER';
-export const SAVEUSEREMAIL = 'SAVEUSEREMAIL';
+export const GET_TYPES = 'GET_TYPES';
+export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
+export const FILTER_BY_SOURCE = 'FILTER_BY_SOURCE';
