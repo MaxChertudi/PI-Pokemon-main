@@ -1,6 +1,6 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
    SAVE_POKEMON, ORDER, FILTER_BY_TYPE, 
-   FILTER_BY_SOURCE, GET_TYPES } from "./types";
+   FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES } from "./types";
 import axios from "axios";
 
 export const getTypes = () => {
@@ -35,32 +35,27 @@ export const getAllPokemons = () => {
    }
 };
 
-// export const removeFav = (id) => {
+export const filterSource = (source) => {
+    return ({type : FILTER_BY_SOURCE,
+        payload : source});
+}
 
-//    try{
-//     const endpoint = 'http://localhost:3001/rickandmorty/fav/' + id;
-//     return async(dispatch) => {
-//          const {data} = await axios.delete(endpoint);
-//          return dispatch({
-//              type: REMOVE_FAV,
-//              payload: data,
-//             });
-//       }
-//    } 
-//    catch (error) {
-//       return {error: error.message};
-//    }
-//  };
+export const orderCards = (orden) => {
+    return ({type : ORDER,
+        payload : orden});
+}
+
+export const resetFilters = () => {
+   return ({type : RESET_FILTERS,
+       payload : null});
+}
 
 // export const filterCards = (gender) => {
 //     return ({type : FILTER,
 //         payload : gender});
 // }
 
-// export const orderCards = (orden) => {
-//     return ({type : ORDER,
-//         payload : orden});
-// }
+
 
 // export const saveUserEmail = (email) => {
 //    return ({type : SAVEUSEREMAIL,

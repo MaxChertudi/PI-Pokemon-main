@@ -3,9 +3,10 @@
   border-color: rgb(194, 18, 18);
   border-radius: 15px;
   border: 2px;
-  margin: 15px;
+  margin: 10px;
   padding: 15px;
-  width: fit-content;
+  width: 300px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   flex-basis: 20%;
@@ -16,9 +17,8 @@
 .img {
   border-radius: 4px;
   height: auto;
-  /* max-width: 100%; */
   width: 100px;
-}
+  }
 
 .types {
   background-color: rgba(115, 117, 115, 0.706);
@@ -30,16 +30,24 @@
   color: #1d77ab;
 }
 
-.boton {
-  color: black;
-  font-size: larger;
-  width: 10%;
-  margin: 0;
-  padding: 0;
-  background-color: rgb(62, 223, 97);
-  float:right
+.source {
+  position: absolute;
+  margin: 1;
 }
-
+.detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgba(115, 117, 115, 0.946);
+  background-size: cover;
+  border-color: rgb(194, 18, 18);
+  border-radius: 15px;
+  width: 300px;
+  height: 500px;
+  border: 2px;
+  margin: 15px;
+  padding:15px;
+}
 
 .boton2 {
   float:right;

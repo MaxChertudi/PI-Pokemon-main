@@ -3,6 +3,7 @@ import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import Detail from './components/Detail';
 
 
 function App() {
@@ -26,17 +27,14 @@ function App() {
         //    console.log(error);
         // }
      } 
-
-
-
     return (
     <div id='App' className="App">
         {location.pathname!=='/' ? (<NavBar onSearch={onSearch} />) : null }
         <Routes>
             <Route path= '/' element={<LandingPage/>} />
             <Route path= '/home' element={<Home/> } />
+            {/* <Route path= '/detail/:id' element={<Detail/>} /> */}
             {/* <Route path= '/about' element={<About/>} />
-            <Route path= '/detail/:id' element={<Detail/>} />
             <Route path= '/favorites' element={<Favorites onClose={onClose}/>} /> */}
         </Routes>  
     </div>
