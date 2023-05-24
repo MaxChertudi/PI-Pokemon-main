@@ -24,7 +24,7 @@ const getPokemonByName = async(req, res) => {
                 const obj = { 
                     id: apiResult.data.id,
                     name: apiResult.data.name,
-                    image: apiResult.data.sprites.front_default,
+                    image: apiResult.data.sprites.other.home.front_shiny,
                     type: apiResult.data.types.map((type) => type.type.name),
                     health: apiResult.data.stats[0].base_stat,
                     attack: apiResult.data.stats[1].base_stat,
@@ -32,7 +32,7 @@ const getPokemonByName = async(req, res) => {
                     speed: apiResult.data.stats[5].base_stat, 
                     height: apiResult.data.height,
                     weight: apiResult.data.weight,
-                    Source: 'api'
+                    source: 'api'
                 }
                 res.status(200).json(obj);
             }

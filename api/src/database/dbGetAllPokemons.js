@@ -6,7 +6,7 @@ const dbGetAllPokemons = async () => {
         arrPokemons = dbRequest.map((pokemon) => {
                return {...pokemon.dataValues, 
                         Types: pokemon.dataValues.Types.map(type => type.name),
-                        Source : 'db'};
+                        source : 'db'};
             } );
         return {arrPokemons};
     } else  

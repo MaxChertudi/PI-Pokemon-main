@@ -15,7 +15,7 @@ const postPokemon = async (req, res) => {
             }
             return res.status(200).json(pokemonCreated);
         } else
-            return res.status(400).send('Faltan datos');
+            return res.status(400).send('Missing paramters');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
