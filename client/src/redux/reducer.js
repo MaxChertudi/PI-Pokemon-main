@@ -1,6 +1,7 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
         SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
-        FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES } from "./types";
+        FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
+        ADD_TYPE_FILTER, DELETE_TYPE_FILTER } from "./types";
 
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
     types: [],
     renderedPokemons: [],
     MaxRenderedPokemons: 12,
-    CurrentRenderedPage: 1
+    typesFilterSelected: []
  };
 
 const Reducer = (state=initialState, action) => {
@@ -64,6 +65,38 @@ const Reducer = (state=initialState, action) => {
             return { ...state, 
                     renderedPokemons: pokemonsToRender };
                             
+        case ADD_TYPE_FILTER:
+            let arrAdd = [...state.typesFilterSelected];
+            arrAdd.push(action.payload);
+            return { ...state, 
+                typesFilterSelected: arrAdd };
+
+        case DELETE_TYPE_FILTER:
+            let arrDel = [...state.typesFilterSelected];
+            const index = arrDel.findIndex( (item) => item === action.payload);
+            arrDel.splice(index, 1);
+            return { ...state, 
+                typesFilterSelected: arrDel };
+              
+        case FILTER_BY_TYPE:
+            let filter = [];
+            filter = state.filteredPokemons.filter
+                (pokemon => {
+                    let found = false;
+                    for(let i=0; i<pokemon.Types.length; i++) {
+                        if (state.typesFilterSelected.includes(pokemon.Types[i])){
+                            found = true;
+                            break;
+                        }
+                    }
+                    console.log(pokemon.Types, found);
+                    return found;
+                })
+console.log("types:", state.typesFilterSelected, "out:", filter);
+
+            return { ...state, 
+                filteredPokemons: filter };          
+
         default:
             return {...state};
     }

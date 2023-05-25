@@ -1,6 +1,8 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
    SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
-   FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES } from "./types";
+   FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
+   ADD_TYPE_FILTER, DELETE_TYPE_FILTER } from "./types";
+
 import axios from "axios";
 
 export const getTypes = () => {
@@ -60,4 +62,12 @@ export const renderPokemons = (page) => {
        payload : page});
 }
 
+export const addTypeFilter = (type) => {
+   return ({type : ADD_TYPE_FILTER,
+       payload : type});
+}
 
+export const deleteTypeFilter = (type) => {
+   return ({type : DELETE_TYPE_FILTER,
+       payload : type});
+}

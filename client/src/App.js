@@ -10,22 +10,23 @@ import CreatePokemon from './components/CreatePokemon.jsx';
 
 function App() {
 
-    async function onSearch(id) { 
-        // if ( characters.find(character => character.id===Number(id)) ) {
-        //    alert('El personaje ya esta agregado!');
-        //    return;
-        // }
-        // try {
-        //    const result = await axios(`http://localhost:3001/rickandmorty/character/${id}`);
-        //    const { data } = result;
-        //    if (data.name)
-        //       setCharacters((characters) => [...characters, data]);
-        //    else 
-        //       window.alert('¡No hay personajes con este ID!');
-        // }
-        // catch (error) {
-        //    console.log(error);
-        // }
+     async function onSearch(name) { 
+        window.alert('under construction', name);
+    //     if ( characters.find(character => character.id===Number(id)) ) {
+    //        alert('El personaje ya esta agregado!');
+    //        return;
+    //     }
+    //     try {
+    //        const result = await axios(`http://localhost:3001/rickandmorty/character/${id}`);
+    //        const { data } = result;
+    //        if (data.name)
+    //           setCharacters((characters) => [...characters, data]);
+    //        else 
+    //           window.alert('¡No hay personajes con este ID!');
+    //     }
+    //     catch (error) {
+    //        console.log(error);
+    //     }
      } 
      
     function getAccess() {

@@ -1,11 +1,11 @@
-import styles from "./Home.module.css";
+import styles from './Home.module.css';
 import Card from './Card';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import * as actions from '../redux/actions';
 import Pagination from './Pagination';
-
+import TypesSwitch from './TypesSwitch';
 
 export default function LandingPage () {
 
@@ -22,24 +22,22 @@ export default function LandingPage () {
     }
 
     const handleFilterType = (event) => {
+        event.target.checked ? dispatch(actions.addTypeFilter(event.target.value))
+        : dispatch(actions.deleteTypeFilter(event.target.value));
         dispatch(actions.filterByType(event.target.value));
         dispatch(actions.renderPokemons(1));
-        
     }
 
-    const handleFilterTypeClearAll = (e) => {
+    const handleFilterTypeClearAll = (event) => {
         //dispatch(filterCards(e.target.value));
-        dispatch(actions.renderPokemons(1));
-        
     }
 
-    const handleFilterTypeSelectAll = (e) => {
+    const handleFilterTypeSelectAll = (event) => {
         //dispatch(filterCards(e.target.value));
-        dispatch(actions.renderPokemons(1));
-        
     }
     const handleResetFilters = (event) => {
         dispatch(actions.resetFilters(event.target.value));
+        dispatch(actions.renderPokemons(1));
         dispatch(actions.renderPokemons(1));
     }
 
@@ -63,6 +61,7 @@ export default function LandingPage () {
         dispatch(actions.getAllPokemons());
         dispatch(actions.getTypes());
         dispatch(actions.renderPokemons(1));
+        setPage(1);
       }, [dispatch]);
 
 
@@ -71,21 +70,28 @@ export default function LandingPage () {
 
     return (
         <div id='Home' key='Home' className={styles.home}>
-            <div id='filters' key='filters' className={styles.filters}>
+            <div id='leftpane' key='leftpane' className={styles.filters}>
+
                 <div id='pages' key='pages' className={styles.pages}>
                     <Pagination itemsPage={MaxRenderedPokemons}
-                        count={allPokemons.length}
+                        count={filteredPokemons.length}
                         currentPage={currentPage}
                         setPage={setPage}/>
                 </div>
 
+                <br></br>
+                
+                <div id='Order' key='Order' className={styles.order}>
                 <h1>Order</h1>
                 <select name="Order" onChange={handleOrder}>  
                     <option value="A-Z">Alphabetically A - Z</option> 
                     <option value="Z-A">Alphabetically Z - A</option> 
                 </select> 
+                </div>
 
                 <br></br>
+
+                <div id='Filters' key='Filters' className={styles.filters}>
                 <h1>Filters</h1>
                 <button className={styles.boton2} onClick={handleResetFilters}>Reset filters</button>
                 <h5>By Source</h5>
@@ -94,26 +100,23 @@ export default function LandingPage () {
                         <option value="db">Database</option> 
                         <option value="api">Pokemon API</option> 
                     </select>
-
+                    
+                
                 <br></br>
+                
                 <h5>By Type</h5>
                 <p> 
-                    <input type="submit" value="Select all" className={styles.boton2} onChange={handleFilterTypeSelectAll}/>
+                    <button className={styles.boton2} onClick={handleFilterTypeSelectAll}>Select all</button>
                     <br></br>
-                    <input type="submit" value="Clear all" className={styles.boton2} onChange={handleFilterTypeClearAll}/>
+                    <button className={styles.boton2} onClick={handleFilterTypeClearAll}>Clear all</button>
                 </p>
                 <div id='types' key='types' className={styles.types}>
-                    {types?.map( (type) => (
-                        <div id={type}key={type} className={styles.types}>
-                            <label id={type}>
-                                <input type="checkbox" id={type} name={type} value={type}
-                                onChange={handleFilterType} className={styles.input}/>
-                            {type} </label>
-                        </div>
-                        ))
-                    }
+                    <TypesSwitch types={types} handleFilterType={handleFilterType}/>
+                    
                     <p><input type="submit" value="Filter pokemons"  className={styles.boton2}/></p>
+                
                 </div>
+            </div>
             </div>
             <div id='Container' key='Container' className={styles.container}>
                 {renderedPokemons?.map( (item) => {
