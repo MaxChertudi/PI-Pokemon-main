@@ -1,15 +1,18 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
-        SAVE_POKEMON, ORDER, FILTER_BY_TYPE, 
+        SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
         FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES } from "./types";
 
 
 const initialState = {
     allPokemons: [],
     filteredPokemons: [],
-    types: []
+    types: [],
+    renderedPokemons: [],
+    MaxRenderedPokemons: 12,
+    CurrentRenderedPage: 1
  };
 
- const Reducer = (state=initialState, action) => {
+const Reducer = (state=initialState, action) => {
 
     switch (action.type) {
 
@@ -53,7 +56,14 @@ const initialState = {
             return { ...state, 
                     filteredPokemons: state.allPokemons };
 
-
+        case RENDERED_POKEMONS:
+            // action.payload = curent page
+            const startPosition = action.payload * state.MaxRenderedPokemons - state.MaxRenderedPokemons;
+            const endPosition = action.payload * state.MaxRenderedPokemons;
+            const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);
+            return { ...state, 
+                    renderedPokemons: pokemonsToRender };
+                            
         default:
             return {...state};
     }

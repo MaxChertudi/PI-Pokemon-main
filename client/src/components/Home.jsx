@@ -2,32 +2,57 @@ import styles from "./Home.module.css";
 import Card from './Card';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 import * as actions from '../redux/actions';
+import Pagination from './Pagination';
+
 
 export default function LandingPage () {
 
     const handleOrder = (event) => {
         dispatch(actions.orderCards(event.target.value));
+        dispatch(actions.renderPokemons(1));
+        setRerender(!rerender); 
     }
      
      const handleFilterSource = (event) => {
-        dispatch(actions.filterSource(event.target.value));
+        dispatch(actions.filterBySource(event.target.value));
+        dispatch(actions.renderPokemons(1));
+        setRerender(!rerender); 
     }
 
-    const handleFilterType = (e) => {
-        //dispatch(filterCards(e.target.value));
+    const handleFilterType = (event) => {
+        dispatch(actions.filterByType(event.target.value));
+        dispatch(actions.renderPokemons(1));
+        
     }
 
     const handleFilterTypeClearAll = (e) => {
         //dispatch(filterCards(e.target.value));
+        dispatch(actions.renderPokemons(1));
+        
     }
 
     const handleFilterTypeSelectAll = (e) => {
         //dispatch(filterCards(e.target.value));
+        dispatch(actions.renderPokemons(1));
+        
     }
     const handleResetFilters = (event) => {
         dispatch(actions.resetFilters(event.target.value));
+        dispatch(actions.renderPokemons(1));
     }
+
+    const setPage = (page) => {
+        setCurrentPage(page);
+        dispatch(actions.renderPokemons(page));
+    };
+
+    const [rerender, setRerender] = useState(false);
+    const allPokemons = useSelector(state => state.allPokemons);
+    const renderedPokemons = useSelector(state => state.renderedPokemons);
+    const MaxRenderedPokemons = useSelector(state => state.MaxRenderedPokemons);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const filteredPokemons = useSelector(state => state.filteredPokemons);
     const types = useSelector(state => state.types);
@@ -37,8 +62,8 @@ export default function LandingPage () {
     useEffect(() => {
         dispatch(actions.getAllPokemons());
         dispatch(actions.getTypes());
+        dispatch(actions.renderPokemons(1));
       }, [dispatch]);
-
 
 
       useEffect(() => {
@@ -47,6 +72,13 @@ export default function LandingPage () {
     return (
         <div id='Home' key='Home' className={styles.home}>
             <div id='filters' key='filters' className={styles.filters}>
+                <div id='pages' key='pages' className={styles.pages}>
+                    <Pagination itemsPage={MaxRenderedPokemons}
+                        count={allPokemons.length}
+                        currentPage={currentPage}
+                        setPage={setPage}/>
+                </div>
+
                 <h1>Order</h1>
                 <select name="Order" onChange={handleOrder}>  
                     <option value="A-Z">Alphabetically A - Z</option> 
@@ -83,9 +115,8 @@ export default function LandingPage () {
                     <p><input type="submit" value="Filter pokemons"  className={styles.boton2}/></p>
                 </div>
             </div>
-
             <div id='Container' key='Container' className={styles.container}>
-                {filteredPokemons?.map( (item) => {
+                {renderedPokemons?.map( (item) => {
                     return (<Card
                         id = {item.id}
                         key = {item.id}

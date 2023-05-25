@@ -7,3 +7,4 @@ export const GET_TYPES = 'GET_TYPES';
 export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const FILTER_BY_SOURCE = 'FILTER_BY_SOURCE';
 export const RESET_FILTERS = 'RESET_FILTERS';
+export const RENDERED_POKEMONS = 'RENDERED_POKEMONS';

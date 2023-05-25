@@ -1,5 +1,5 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
-   SAVE_POKEMON, ORDER, FILTER_BY_TYPE, 
+   SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
    FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES } from "./types";
 import axios from "axios";
 
@@ -35,7 +35,12 @@ export const getAllPokemons = () => {
    }
 };
 
-export const filterSource = (source) => {
+export const filterByType = (types) => {
+   return ({type : FILTER_BY_TYPE,
+       payload : types});
+}
+
+export const filterBySource = (source) => {
     return ({type : FILTER_BY_SOURCE,
         payload : source});
 }
@@ -50,14 +55,9 @@ export const resetFilters = () => {
        payload : null});
 }
 
-// export const filterCards = (gender) => {
-//     return ({type : FILTER,
-//         payload : gender});
-// }
+export const renderPokemons = (page) => {
+   return ({type : RENDERED_POKEMONS,
+       payload : page});
+}
 
 
-
-// export const saveUserEmail = (email) => {
-//    return ({type : SAVEUSEREMAIL,
-//        payload : email});
-// }
