@@ -6,7 +6,7 @@ const getAllPokemons = async(req, res) => {
         // Gather db data 
         const dbPokemons = await dbGetAllPokemons();
         // gather API data
-        const endpointAll = "https://pokeapi.co/api/v2/pokemon/?limit=20";
+        const endpointAll = "https://pokeapi.co/api/v2/pokemon/?limit=60";
         const apiResultAll =  await axios(endpointAll);
         const arrPokemons = apiResultAll.data.results;
         const arrResult = [];
@@ -29,7 +29,7 @@ const getAllPokemons = async(req, res) => {
             arrResult.push(obj);
         }
         // Consolidate data from db and api
-        const arrResultAll = arrResult.concat(dbPokemons.arrPokemons);
+        const arrResultAll = [...dbPokemons.arrPokemons, ...arrResult];
         res.status(200).json(arrResultAll);
     } catch(error) {
         res.status(500).send(error.message);
