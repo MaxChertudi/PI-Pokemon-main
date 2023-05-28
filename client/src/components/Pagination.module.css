@@ -5,6 +5,7 @@
   padding: 3px;
   list-style-type:none;
   font-weight: lighter;
+  margin: 10px;
 }
 
 .ulactive {
@@ -17,12 +18,13 @@
   color: rgb(152, 87, 7);
 }
 
-.container {
-  display:flex;
+.paginationcontainer {
+  display: flex;
   text-align: center;
+  padding-left: 0%;
   flex-direction:row;
   flex-wrap: wrap;
-  justify-content:center;
+  justify-content: space-between;
   background-color: rgba(115, 117, 115, 0.187);
   border-radius: 15px;
   border-color: rgb(134, 51, 23);

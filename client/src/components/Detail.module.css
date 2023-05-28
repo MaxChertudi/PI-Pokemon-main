@@ -9,7 +9,21 @@
     width: fit-content;
     padding:15px;
   }
-
+  .info {
+    padding-top: 50px;
+    position: absolute;
+    right: 340px;
+    top: 170px;
+    background-color: rgba(130, 177, 177, 0.944);
+    background-size: cover;
+    width:fit-content;
+    border-color: rgb(194, 18, 18);
+    border-radius: 15px;
+    border: 2px;
+    margin: 15px;
+    width: fit-content;
+    padding:15px;
+  }
   .boton2 {
     float:right;
     left: 23.6rem;

@@ -1,7 +1,8 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
         SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
         FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
-        ADD_TYPE_FILTER, DELETE_TYPE_FILTER } from "./types";
+        ADD_TYPE_FILTER, DELETE_TYPE_FILTER,
+        SET_CURRENT_PAGE } from "./types";
 
 
 const initialState = {
@@ -10,7 +11,9 @@ const initialState = {
     types: [],
     renderedPokemons: [],
     MaxRenderedPokemons: 12,
-    typesFilterSelected: []
+    typesFilterSelected: [],
+    currentPage : 1,
+    pageCount : 1
  };
 
 const Reducer = (state=initialState, action) => {
@@ -19,12 +22,14 @@ const Reducer = (state=initialState, action) => {
 
         case GET_POKEMONS:
             return { ...state, 
+                    pageCount : Math.ceil(action.payload.length / state.MaxRenderedPokemons),
                     allPokemons: action.payload,
-                    filteredPokemons: action.payload };
+                    filteredPokemons: action.payload,
+                    renderedPokemons: action.payload.slice(0, 12) };
         
         case GET_TYPES:
             return { ...state, 
-                    types: action.payload };
+                    types: action.payload.sort() };
         
         case FILTER_BY_SOURCE:
             let filtered = [];
@@ -96,6 +101,12 @@ console.log("types:", state.typesFilterSelected, "out:", filter);
 
             return { ...state, 
                 filteredPokemons: filter };          
+
+        case SET_CURRENT_PAGE:
+            return { ...state, 
+                currentPage: action.payload };
+
+
 
         default:
             return {...state};

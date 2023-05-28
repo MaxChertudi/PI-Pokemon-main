@@ -1,7 +1,7 @@
 import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
    SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
    FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
-   ADD_TYPE_FILTER, DELETE_TYPE_FILTER } from "./types";
+   ADD_TYPE_FILTER, DELETE_TYPE_FILTER, SET_CURRENT_PAGE } from "./types";
 
 import axios from "axios";
 
@@ -70,4 +70,9 @@ export const addTypeFilter = (type) => {
 export const deleteTypeFilter = (type) => {
    return ({type : DELETE_TYPE_FILTER,
        payload : type});
+}
+
+export const setCurrentPage = (page) => {
+   return ({type : SET_CURRENT_PAGE,
+       payload : page});
 }

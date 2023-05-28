@@ -2,10 +2,9 @@ import styles from './Home.module.css';
 import Card from './Card';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
 import * as actions from '../redux/actions';
 import Pagination from './Pagination';
-import TypesSwitch from './TypesSwitch';
+import Loading from './Loading';
 
 export default function LandingPage () {
 
@@ -22,19 +21,40 @@ export default function LandingPage () {
     }
 
     const handleFilterType = (event) => {
-        event.target.checked ? dispatch(actions.addTypeFilter(event.target.value))
-        : dispatch(actions.deleteTypeFilter(event.target.value));
+        if (event.target.checked) {
+
+            dispatch(actions.addTypeFilter(event.target.value))
+        } else {
+            dispatch(actions.deleteTypeFilter(event.target.value));
+        }
         dispatch(actions.filterByType(event.target.value));
+        const index = types.findIndex( (type) => type === event.target.value);
+        let arrAux = checkboxStatus;
+        arrAux[index] = !arrAux[index];
+        setCheckboxStatus(arrAux);
         dispatch(actions.renderPokemons(1));
     }
 
     const handleFilterTypeClearAll = (event) => {
-        //dispatch(filterCards(e.target.value));
+        let arrAux = checkboxStatus;
+        types?.map(( type, index) => {
+            arrAux[index] = false;
+            dispatch(actions.addTypeFilter(type));
+        });
+        setCheckboxStatus(arrAux);
+        setRerender(!rerender); 
     }
 
     const handleFilterTypeSelectAll = (event) => {
-        //dispatch(filterCards(e.target.value));
+        let arrAux = checkboxStatus;
+        types?.map(( type, index) => {
+            arrAux[index] = true;
+            dispatch(actions.addTypeFilter(type));
+        });
+        setCheckboxStatus(arrAux);
+        setRerender(!rerender); 
     }
+
     const handleResetFilters = (event) => {
         dispatch(actions.resetFilters(event.target.value));
         dispatch(actions.renderPokemons(1));
@@ -42,41 +62,67 @@ export default function LandingPage () {
     }
 
     const setPage = (page) => {
-        setCurrentPage(page);
+        dispatch(actions.setCurrentPage(page));
         dispatch(actions.renderPokemons(page));
     };
 
-    const [rerender, setRerender] = useState(false);
-    const allPokemons = useSelector(state => state.allPokemons);
-    const renderedPokemons = useSelector(state => state.renderedPokemons);
-    const MaxRenderedPokemons = useSelector(state => state.MaxRenderedPokemons);
-    const [currentPage, setCurrentPage] = useState(1);
+    const previousPage = () => {
+        if (currentPage > 1) {
+            dispatch(actions.setCurrentPage(currentPage - 1));
+            dispatch(actions.renderPokemons(currentPage - 1));
+        }
+    };
 
-    const filteredPokemons = useSelector(state => state.filteredPokemons);
+    const nextPage = () => {
+        console.log(currentPage, pageCount);
+        if (currentPage < pageCount) {
+            dispatch(actions.setCurrentPage(currentPage + 1));
+            dispatch(actions.renderPokemons(currentPage + 1));
+        }
+    };
+
+    const [rerender, setRerender] = useState(false);
+    const renderedPokemons = useSelector(state => state.renderedPokemons);
+    const currentPage = useSelector(state => state.currentPage);
+    const pageCount = useSelector(state => state.pageCount);
+    const [loadDone, setLoadDone] = useState(false);
+    const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
+                                                true, true, true, true, true, true, true,
+                                                true, true, true, true, true, true ]);
+    const [pageButtonsStatus, setPageButtonsStatus] = useState([]);
     const types = useSelector(state => state.types);
     const dispatch = useDispatch();
+    const pageNumbers = [];
 
     // Load initial data
     useEffect(() => {
-        dispatch(actions.getAllPokemons());
-        dispatch(actions.getTypes());
-        dispatch(actions.renderPokemons(1));
-        setPage(1);
-      }, [dispatch]);
+        console.log('useeffect []', loadDone);
+        if (!loadDone) {
+            dispatch(actions.getAllPokemons());
+            dispatch(actions.getTypes());
+            
+            // Add types to filter
+            types?.map(( type) => {
+                dispatch(actions.addTypeFilter(type));
+            });
 
-
-      useEffect(() => {
-      }, [filteredPokemons]);
+            dispatch(actions.renderPokemons(1));
+            setPage(1);
+            setLoadDone(true);
+        console.log('load data finished', loadDone);
+        }
+        
+      }, []);
 
     return (
         <div id='Home' key='Home' className={styles.home}>
+            {!loadDone? (<Loading />) : null }
             <div id='leftpane' key='leftpane' className={styles.filters}>
 
-                <div id='pages' key='pages' className={styles.pages}>
-                    <Pagination itemsPage={MaxRenderedPokemons}
-                        count={filteredPokemons.length}
-                        currentPage={currentPage}
-                        setPage={setPage}/>
+                <div id='Pagination' key='Pagination' className={styles.pages}>
+                    <Pagination setPage={setPage} previousPage={previousPage} nextPage={nextPage}>
+                        
+                    </Pagination>
                 </div>
 
                 <br></br>
@@ -111,10 +157,15 @@ export default function LandingPage () {
                     <button className={styles.boton2} onClick={handleFilterTypeClearAll}>Clear all</button>
                 </p>
                 <div id='types' key='types' className={styles.types}>
-                    <TypesSwitch types={types} handleFilterType={handleFilterType}/>
-                    
-                    <p><input type="submit" value="Filter pokemons"  className={styles.boton2}/></p>
-                
+                    {types?.map( (type, index) => (
+                        <div id={type}key={type} className={styles.types}>
+                            <label id={type}>
+                                <input type="checkbox" id={type} name={type} value={type} checked={checkboxStatus[index]}
+                                    onChange={(event) => {handleFilterType(event)}} className={styles.input}/>
+                                {type} 
+                            </label>
+                        </div>
+                    )) }
                 </div>
             </div>
             </div>

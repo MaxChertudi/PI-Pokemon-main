@@ -123,3 +123,40 @@
     width:100%;
     height:fit-content
   }
+
+  .paginationcontainer {
+    display: flex;
+    text-align: center;
+    padding-left: 0%;
+    flex-direction:row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgba(115, 117, 115, 0.187);
+    border-radius: 15px;
+    border-color: rgb(134, 51, 23);
+    height:fit-content;
+    margin: 10px;
+    list-style: none;
+    list-style-type:none;
+  }
+
+  .ul {
+    background-color:  rgba(115, 117, 115, 0.187);
+    text-align: center;
+    display: inline;
+    padding: 3px;
+    list-style-type:none;
+    font-weight: lighter;
+    margin: 10px;
+  }
+  
+  .ulactive {
+    background-color:  rgba(171, 236, 171, 0.843);
+    text-align: center;
+    display: inline;
+    padding: 3px;
+    font-weight: lighter;
+    list-style-type:none;
+    color: rgb(152, 87, 7);
+  }
+  

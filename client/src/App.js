@@ -37,13 +37,14 @@ function App() {
      const navigate = useNavigate();
      let location = useLocation();
      let [access, setAccess] = useState(false);
-     useEffect(() => { !access && navigate('/'); }, [access]);
+     useEffect(() => { !access && navigate('/landing'); }, [access]);
      
     return (
     <div id='App' className="App">
         {location.pathname!=='/' ? (<NavBar onSearch={onSearch} />) : null }
         <Routes>
-            <Route path= '/' element={<LandingPage getAccess={getAccess}/>} />
+            <Route path= '/landing' element={<LandingPage getAccess={getAccess}/>} />
+            {/* <Route path= '/loading' element={<Loading/> } /> */}
             <Route path= '/home' element={<Home/> } />
             <Route path= '/detail/:id' element={<Detail/>} />
             <Route path= '/createpokemon' element={<CreatePokemon/> } />
