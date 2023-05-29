@@ -7,6 +7,7 @@ export default function SearchBar({props}) {
    let [error, setError] = React.useState(''); 
 
     function handleChange(event) {
+        event.preventDefault();
         const regExp_letters = new RegExp(/^[A-Za-z]+$/);
         if (!regExp_letters.test(event.target.value)) {
             setError('Name should contain only letters!');

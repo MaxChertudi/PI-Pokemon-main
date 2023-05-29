@@ -5,21 +5,25 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from '../redux/actions';
 import Pagination from './Pagination';
 import Loading from './Loading';
+import EmptyResults from './EmptyResults';
 
 export default function LandingPage () {
 
     const handleOrder = (event) => {
+        event.preventDefault();
         dispatch(actions.orderCards(event.target.value));
         dispatch(actions.renderPokemons(1));
     }
      
      const handleFilterSource = (event) => {
+        event.preventDefault();
         dispatch(actions.setSourceFilterSelected(event.target.value));
         dispatch(actions.filter());
         dispatch(actions.renderPokemons(1));
     }
 
     const handleFilterType = (event) => {
+        event.preventDefault();
         if (event.target.checked) {
             dispatch(actions.addTypeFilter(event.target.value))
         } else {
@@ -35,6 +39,7 @@ export default function LandingPage () {
     }
 
     const handleFilterTypeClearAll = (event) => {
+        event.preventDefault();
         let arrAux = checkboxStatus;
         types?.map(( type, index) => {
             arrAux[index] = false;
@@ -46,6 +51,7 @@ export default function LandingPage () {
     }
 
     const handleFilterTypeSelectAll = (event) => {
+        event.preventDefault();
         let arrAux = checkboxStatus;
         types?.map(( type, index) => {
             arrAux[index] = true;
@@ -57,6 +63,7 @@ export default function LandingPage () {
     }
 
     const handleResetFilters = (event) => {
+        event.preventDefault();
         dispatch(actions.resetFilters(event.target.value));
         let arrAux = checkboxStatus;
         types?.map(( type, index) => {
@@ -73,14 +80,14 @@ export default function LandingPage () {
         dispatch(actions.renderPokemons(page));
     };
 
-    const previousPage = () => {
+    const previousPage = (event) => {
         if (currentPage > 1) {
             dispatch(actions.setCurrentPage(currentPage - 1));
             dispatch(actions.renderPokemons(currentPage - 1));
         }
     };
 
-    const nextPage = () => {
+    const nextPage = (event) => {
         if (currentPage < pageCount) {
             dispatch(actions.setCurrentPage(currentPage + 1));
             dispatch(actions.renderPokemons(currentPage + 1));
@@ -89,6 +96,7 @@ export default function LandingPage () {
 
     const renderedPokemons = useSelector(state => state.renderedPokemons);
     const filteredPokemons = useSelector(state => state.filteredPokemons);
+    const allPokemons = useSelector(state => state.allPokemons);
     const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
     const currentPage = useSelector(state => state.currentPage);
     const pageCount = useSelector(state => state.pageCount);
@@ -101,7 +109,7 @@ export default function LandingPage () {
 
     // Load initial data
     useEffect(() => {
-        if (!loadDone) {
+        if (allPokemons.length === 0) {
             dispatch(actions.getAllPokemons());
             dispatch(actions.getTypes());
             
@@ -119,7 +127,8 @@ export default function LandingPage () {
 
     useEffect(() => { }, [filteredPokemons]);
 
-    return (filteredPokemons.length === 0 ? (<div><Loading></Loading></div>)
+    return (allPokemons.length === 0 ? (<div id='load' key='load'><Loading></Loading></div>)
+        // : filteredPokemons.length === 0 ? (<div id='empty' key='empty'><EmptyResults></EmptyResults></div>)
         :
         <div id='Home' key='Home' className={styles.home}>
             
