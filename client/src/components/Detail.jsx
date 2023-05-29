@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 export default function Detail() {
     let [pokemon, setPokemon] = useState({}); 
     const { id } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
-        axios(`http://localhost:3001/pokemons/${id}`).then(({ data }) => {
+      axios(`http://localhost:3001/pokemons/?name=${name}`)
+        .then(({ data }) => {
            if (data.name) {
               setPokemon(data);
            } else {

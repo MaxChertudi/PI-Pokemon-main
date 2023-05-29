@@ -11,23 +11,22 @@ export default function LandingPage () {
     const handleOrder = (event) => {
         dispatch(actions.orderCards(event.target.value));
         dispatch(actions.renderPokemons(1));
-        setRerender(!rerender); 
     }
      
      const handleFilterSource = (event) => {
-        dispatch(actions.filterBySource(event.target.value));
+        dispatch(actions.setSourceFilterSelected(event.target.value));
+        dispatch(actions.filter());
         dispatch(actions.renderPokemons(1));
-        setRerender(!rerender); 
     }
 
     const handleFilterType = (event) => {
         if (event.target.checked) {
-
             dispatch(actions.addTypeFilter(event.target.value))
         } else {
             dispatch(actions.deleteTypeFilter(event.target.value));
         }
-        dispatch(actions.filterByType(event.target.value));
+        dispatch(actions.filter());
+        // Updates the checked status for the right checkbox
         const index = types.findIndex( (type) => type === event.target.value);
         let arrAux = checkboxStatus;
         arrAux[index] = !arrAux[index];
@@ -39,10 +38,11 @@ export default function LandingPage () {
         let arrAux = checkboxStatus;
         types?.map(( type, index) => {
             arrAux[index] = false;
-            dispatch(actions.addTypeFilter(type));
+            dispatch(actions.deleteTypeFilter(type));
         });
         setCheckboxStatus(arrAux);
-        setRerender(!rerender); 
+        dispatch(actions.filter());
+        dispatch(actions.renderPokemons(1));
     }
 
     const handleFilterTypeSelectAll = (event) => {
@@ -52,12 +52,19 @@ export default function LandingPage () {
             dispatch(actions.addTypeFilter(type));
         });
         setCheckboxStatus(arrAux);
-        setRerender(!rerender); 
+        dispatch(actions.filter());
+        dispatch(actions.renderPokemons(1));
     }
 
     const handleResetFilters = (event) => {
         dispatch(actions.resetFilters(event.target.value));
-        dispatch(actions.renderPokemons(1));
+        let arrAux = checkboxStatus;
+        types?.map(( type, index) => {
+            arrAux[index] = true;
+            dispatch(actions.addTypeFilter(type));
+        });
+        dispatch(actions.filter());
+        setCheckboxStatus(arrAux);
         dispatch(actions.renderPokemons(1));
     }
 
@@ -81,22 +88,20 @@ export default function LandingPage () {
         }
     };
 
-    const [rerender, setRerender] = useState(false);
     const renderedPokemons = useSelector(state => state.renderedPokemons);
+    const filteredPokemons = useSelector(state => state.filteredPokemons);
+    const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
     const currentPage = useSelector(state => state.currentPage);
     const pageCount = useSelector(state => state.pageCount);
     const [loadDone, setLoadDone] = useState(false);
     const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
                                                 true, true, true, true, true, true, true,
                                                 true, true, true, true, true, true ]);
-    const [pageButtonsStatus, setPageButtonsStatus] = useState([]);
     const types = useSelector(state => state.types);
     const dispatch = useDispatch();
-    const pageNumbers = [];
 
     // Load initial data
     useEffect(() => {
-        console.log('useeffect []', loadDone);
         if (!loadDone) {
             dispatch(actions.getAllPokemons());
             dispatch(actions.getTypes());
@@ -106,13 +111,15 @@ export default function LandingPage () {
                 dispatch(actions.addTypeFilter(type));
             });
 
+            dispatch(actions.setPageCount());
             dispatch(actions.renderPokemons(1));
             setPage(1);
             setLoadDone(true);
-        console.log('load data finished', loadDone);
         }
-        
       }, []);
+
+      useEffect(() => {
+      }, [filteredPokemons]);
 
     return (
         <div id='Home' key='Home' className={styles.home}>
@@ -141,7 +148,7 @@ export default function LandingPage () {
                 <h1>Filters</h1>
                 <button className={styles.boton2} onClick={handleResetFilters}>Reset filters</button>
                 <h5>By Source</h5>
-                    <select name="Source" onChange={handleFilterSource}>  
+                    <select name="Source" onChange={handleFilterSource} value={sourceFilterSelected}>  
                         <option value="All">All</option>
                         <option value="db">Database</option> 
                         <option value="api">Pokemon API</option> 

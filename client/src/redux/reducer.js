@@ -1,19 +1,19 @@
-import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
-        SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
+import { GET_POKEMONS, SAVE_POKEMON, ORDER, RENDERED_POKEMONS,
         FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
-        ADD_TYPE_FILTER, DELETE_TYPE_FILTER,
-        SET_CURRENT_PAGE } from "./types";
+        ADD_TYPE_FILTER, DELETE_TYPE_FILTER, FILTER,
+        SET_CURRENT_PAGE, SET_PAGE_COUNT, SET_SOURCE_FILTER } from "./types";
 
 
 const initialState = {
     allPokemons: [],
     filteredPokemons: [],
-    types: [],
     renderedPokemons: [],
     MaxRenderedPokemons: 12,
+    types: [],
     typesFilterSelected: [],
-    currentPage : 1,
-    pageCount : 1
+    sourceFilterSelected: 'All',
+    currentPage : 0,
+    pageCount : 0
  };
 
 const Reducer = (state=initialState, action) => {
@@ -22,7 +22,6 @@ const Reducer = (state=initialState, action) => {
 
         case GET_POKEMONS:
             return { ...state, 
-                    pageCount : Math.ceil(action.payload.length / state.MaxRenderedPokemons),
                     allPokemons: action.payload,
                     filteredPokemons: action.payload,
                     renderedPokemons: action.payload.slice(0, 12) };
@@ -32,15 +31,8 @@ const Reducer = (state=initialState, action) => {
                     types: action.payload.sort() };
         
         case FILTER_BY_SOURCE:
-            let filtered = [];
-            if (action.payload === 'All') {
-                filtered = state.allPokemons;
-            } else {
-                filtered = state.allPokemons.filter
-                    (pokemon => pokemon.source === action.payload);
-            }
             return { ...state, 
-                    filteredPokemons: filtered };    
+                sourceFilterSelected: action.payload };    
 
         case ORDER:
             let ordered = [];
@@ -55,12 +47,14 @@ const Reducer = (state=initialState, action) => {
                     return 0
                 }
             } );
+            
             return { ...state, 
                     filteredPokemons: ordered };  
 
         case RESET_FILTERS:
             return { ...state, 
-                    filteredPokemons: state.allPokemons };
+                    filteredPokemons: state.allPokemons,
+                    sourceFilterSelected: 'All' };
 
         case RENDERED_POKEMONS:
             // action.payload = curent page
@@ -71,8 +65,10 @@ const Reducer = (state=initialState, action) => {
                     renderedPokemons: pokemonsToRender };
                             
         case ADD_TYPE_FILTER:
+            // Avoid duplicates
             let arrAdd = [...state.typesFilterSelected];
-            arrAdd.push(action.payload);
+            if (!state.typesFilterSelected.includes(action.payload)) 
+                arrAdd.push(action.payload);
             return { ...state, 
                 typesFilterSelected: arrAdd };
 
@@ -82,10 +78,32 @@ const Reducer = (state=initialState, action) => {
             arrDel.splice(index, 1);
             return { ...state, 
                 typesFilterSelected: arrDel };
-              
-        case FILTER_BY_TYPE:
-            let filter = [];
-            filter = state.filteredPokemons.filter
+
+        case SET_CURRENT_PAGE:
+            return { ...state, 
+                currentPage: action.payload };
+
+        case SET_PAGE_COUNT:
+            const pages = Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons);
+            return { ...state, 
+                pageCount: pages }; 
+
+        case SET_SOURCE_FILTER:
+            return { ...state, 
+                sourceFilterSelected: action.payload };
+                
+        case FILTER:
+            let filtered = [];
+            // Apply source filter
+            if (state.sourceFilterSelected === 'All') {
+                filtered = state.allPokemons;
+            } else {
+                filtered = state.allPokemons.filter
+                    (pokemon => pokemon.source === state.sourceFilterSelected);
+            }
+            // Apply type filter
+            let finalFilter = [];
+            finalFilter = filtered.filter
                 (pokemon => {
                     let found = false;
                     for(let i=0; i<pokemon.Types.length; i++) {
@@ -93,19 +111,13 @@ const Reducer = (state=initialState, action) => {
                             found = true;
                             break;
                         }
-                    }
-                    console.log(pokemon.Types, found);
+                    }                        
                     return found;
-                })
-console.log("types:", state.typesFilterSelected, "out:", filter);
-
+            });
+            if (finalFilter.length === 0) 
+                alert('That combination of filters has empty results.');
             return { ...state, 
-                filteredPokemons: filter };          
-
-        case SET_CURRENT_PAGE:
-            return { ...state, 
-                currentPage: action.payload };
-
+                filteredPokemons: finalFilter };
 
 
         default:

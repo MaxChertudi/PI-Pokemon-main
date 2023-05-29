@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Card(props) {
-    const [flip, setFlip] = useState(false);
     let [pokemon, setPokemon] = useState({}); 
 
     useEffect(() => {
@@ -23,9 +22,8 @@ export default function Card(props) {
                 <div id='Types' key='Types' className={styles.types}>
                     {props.Types.map(type => <h5 key={type}> {type} </h5>)}
                 </div>
-                <Link to={`/detail/${props.id}`}>  
-                    <button className={styles.boton2} onClick={() => setFlip(!flip)}>
-                        Details</button>
+                <Link to={`/detail/${props.name}`}>
+                    <button className={styles.boton2}>Details</button>
                 </Link>
             </div>
     </> 

@@ -1,7 +1,7 @@
-import { GET_POKEMONS, GET_POKEMON_ID, GET_POKEMON_NAME, 
-   SAVE_POKEMON, ORDER, FILTER_BY_TYPE, RENDERED_POKEMONS,
+import { GET_POKEMONS, SAVE_POKEMON, ORDER, RENDERED_POKEMONS,
    FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
-   ADD_TYPE_FILTER, DELETE_TYPE_FILTER, SET_CURRENT_PAGE } from "./types";
+   ADD_TYPE_FILTER, DELETE_TYPE_FILTER, SET_CURRENT_PAGE,
+   SET_PAGE_COUNT, SET_SOURCE_FILTER, FILTER } from "./types";
 
 import axios from "axios";
 
@@ -37,11 +37,6 @@ export const getAllPokemons = () => {
    }
 };
 
-export const filterByType = (types) => {
-   return ({type : FILTER_BY_TYPE,
-       payload : types});
-}
-
 export const filterBySource = (source) => {
     return ({type : FILTER_BY_SOURCE,
         payload : source});
@@ -76,3 +71,19 @@ export const setCurrentPage = (page) => {
    return ({type : SET_CURRENT_PAGE,
        payload : page});
 }
+
+export const setPageCount = () => {
+   return ({type : SET_PAGE_COUNT,
+       payload : 0});
+}
+
+export const setSourceFilterSelected = (filter) => {
+   return ({type : SET_SOURCE_FILTER,
+       payload : filter});
+}
+
+export const filter = () => {
+   return ({type : FILTER,
+       payload : 0});
+}
+

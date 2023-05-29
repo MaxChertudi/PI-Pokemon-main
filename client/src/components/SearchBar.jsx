@@ -1,18 +1,28 @@
 import styles from './Searchbar.module.css'
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SearchBar({props}) {
-   let [id, setId] = React.useState(''); 
+   let [name, setName] = React.useState(''); 
+   let [error, setError] = React.useState(''); 
 
- function handleChange(evento) {
-   if (evento.keyCode === 13)
-      props.onSearch(id)
-   setId(evento.target.value);
-}
+    function handleChange(event) {
+        const regExp_letters = new RegExp(/^[A-Za-z]+$/);
+        if (!regExp_letters.test(event.target.value)) {
+            setError('Name should contain only letters!');
+        } else {
+            setName(event.target.value);
+            setError('');
+        }
+    }
+
    return (
       <div id='searchbar' className={styles.searchBox}>
-         <input id='box' type='search' className={styles.input} value={id} onChange={handleChange}/>
-         <button id='boton' className={styles.searchBoton} onClick={() => props.onSearch(id)}> Search name </button> 
+        <input id='box' type='search' className={styles.input} onChange={handleChange}/>
+        {error && <p>{error}</p>}
+        <Link to={`/detail/${name}`}>
+            <button className={styles.boton2}>Search name</button>
+        </Link>
       </div>
    );
 }
