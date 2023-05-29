@@ -1,29 +1,43 @@
-.detail {
+  .detail {
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    width: 860px;
+    height: 700px;
     background-color: rgba(115, 117, 115, 0.946);
-    background-size: cover;
-    width:fit-content;
-    border-color: rgb(194, 18, 18);
-    border-radius: 15px;
+    border-radius: 55px;
     border: 2px;
-    margin: 15px;
-    width: fit-content;
-    padding:15px;
-  }
-  .info {
-    padding-top: 50px;
+    margin: 0;
     position: absolute;
-    right: 340px;
-    top: 170px;
-    background-color: rgba(130, 177, 177, 0.944);
-    background-size: cover;
-    width:fit-content;
-    border-color: rgb(194, 18, 18);
-    border-radius: 15px;
-    border: 2px;
-    margin: 15px;
-    width: fit-content;
-    padding:15px;
+    top: 10%;
+    left: 20%;
+    padding: 0px;
   }
+  .img {
+    border-radius: 4px;
+    height: auto;
+    width: auto;
+    }
+  .info {
+    background-color: rgb(130, 177, 177);
+    width:170;
+    border-color: rgb(194, 18, 18);
+    border-radius: 55px;
+    border: 0px;
+    margin: 0px;
+    padding: 15px;
+  }
+
+  .types {
+    background-color: rgb(130, 177, 177);
+    border: 2px;
+    margin: 1px;
+    padding: 15px;
+    width: fit-content;
+    height: fit-content;
+    color: #c85821;
+  }
+ 
   .boton2 {
     float:right;
     left: 23.6rem;

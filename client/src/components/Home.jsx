@@ -81,7 +81,6 @@ export default function LandingPage () {
     };
 
     const nextPage = () => {
-        console.log(currentPage, pageCount);
         if (currentPage < pageCount) {
             dispatch(actions.setCurrentPage(currentPage + 1));
             dispatch(actions.renderPokemons(currentPage + 1));
@@ -118,64 +117,67 @@ export default function LandingPage () {
         }
       }, []);
 
-      useEffect(() => {
-      }, [filteredPokemons]);
+    useEffect(() => { }, [filteredPokemons]);
 
-    return (
+    return (filteredPokemons.length === 0 ? (<div><Loading></Loading></div>)
+        :
         <div id='Home' key='Home' className={styles.home}>
-            {!loadDone? (<Loading />) : null }
-            <div id='leftpane' key='leftpane' className={styles.filters}>
+            
+            <div id='leftpane' key='leftpane' className={styles.leftpane}>
 
                 <div id='Pagination' key='Pagination' className={styles.pages}>
-                    <Pagination setPage={setPage} previousPage={previousPage} nextPage={nextPage}>
-                        
-                    </Pagination>
+                    <Pagination setPage={setPage} previousPage={previousPage} nextPage={nextPage}></Pagination>
                 </div>
 
                 <br></br>
                 
                 <div id='Order' key='Order' className={styles.order}>
-                <h1>Order</h1>
-                <select name="Order" onChange={handleOrder}>  
-                    <option value="A-Z">Alphabetically A - Z</option> 
-                    <option value="Z-A">Alphabetically Z - A</option> 
-                </select> 
+                    <h1 className={styles.title}>Order</h1>
+                    <div>
+                        <select name="Order" onChange={handleOrder} className={styles.dropdown}>  
+                            <option value="A-Z">Asc  A - Z</option> 
+                            <option value="Z-A">Desc  Z - A</option> 
+                        </select> 
+                        <br></br>
+                    </div>
                 </div>
 
                 <br></br>
 
                 <div id='Filters' key='Filters' className={styles.filters}>
-                <h1>Filters</h1>
-                <button className={styles.boton2} onClick={handleResetFilters}>Reset filters</button>
-                <h5>By Source</h5>
-                    <select name="Source" onChange={handleFilterSource} value={sourceFilterSelected}>  
-                        <option value="All">All</option>
-                        <option value="db">Database</option> 
-                        <option value="api">Pokemon API</option> 
-                    </select>
-                    
-                
-                <br></br>
-                
-                <h5>By Type</h5>
-                <p> 
+                    <h1 className={styles.title}>Filters</h1>
+                    <button className={styles.boton2} onClick={handleResetFilters}>Reset filters</button>
+                    <h5 className={styles.subtitle}>By Source</h5>
+                    <div>
+                        <select name="Source" onChange={handleFilterSource} value={sourceFilterSelected} className={styles.dropdown}>  
+                            <option value="All">All</option>
+                            <option value="db">Database</option> 
+                            <option value="api">Pokemon API</option> 
+                        </select>
+                    </div>
+                </div>
+
+                <div id='ByType' key='ByType' className={styles.filtersbyttype}>
+                    <br></br> 
+                    <h5 className={styles.subtitle}>By Type</h5>
+                    <br></br>
                     <button className={styles.boton2} onClick={handleFilterTypeSelectAll}>Select all</button>
                     <br></br>
                     <button className={styles.boton2} onClick={handleFilterTypeClearAll}>Clear all</button>
-                </p>
+                    <br></br>
+                </div>
                 <div id='types' key='types' className={styles.types}>
                     {types?.map( (type, index) => (
-                        <div id={type}key={type} className={styles.types}>
-                            <label id={type}>
-                                <input type="checkbox" id={type} name={type} value={type} checked={checkboxStatus[index]}
-                                    onChange={(event) => {handleFilterType(event)}} className={styles.input}/>
+                        <label id={'label'+type}>
+                            <input type="checkbox" id={type} name={type} value={type} checked={checkboxStatus[index]}
+                                onChange={(event) => {handleFilterType(event)}} className={styles.input}/>
                                 {type} 
-                            </label>
-                        </div>
+                        </label>
+                        
                     )) }
                 </div>
             </div>
-            </div>
+           
             <div id='Container' key='Container' className={styles.container}>
                 {renderedPokemons?.map( (item) => {
                     return (<Card

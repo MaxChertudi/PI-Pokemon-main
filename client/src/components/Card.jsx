@@ -17,7 +17,7 @@ export default function Card(props) {
     return ( 
         <>
             <div className={styles.card} id={props.id} key={props.id}>
-                <h1> {props.name} </h1>
+                <h1 className={styles.title}> {props.name} </h1>
                 <img src={props.image} alt={props.name} className={styles.img} />
                 <div id='Types' key='Types' className={styles.types}>
                     {props.Types.map(type => <h5 key={type}> {type} </h5>)}

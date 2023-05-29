@@ -1,3 +1,6 @@
+.title {
+  margin-top: 0;
+}
 .ul {
   background-color:  rgba(115, 117, 115, 0.187);
   text-align: center;
@@ -5,8 +8,20 @@
   padding: 3px;
   list-style-type:none;
   font-weight: lighter;
-  margin: 10px;
+  width: 27px
 }
+
+.PrevNext {
+  background-color:  rgba(115, 117, 115, 0.187);
+  text-align: center;
+  display: inline;
+  padding: 3px;
+  list-style-type:none;
+  font-weight: lighter;
+  margin: 8px;
+  width: 48px
+}
+
 
 .ulactive {
   background-color:  rgba(171, 236, 171, 0.843);

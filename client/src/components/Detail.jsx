@@ -2,34 +2,37 @@ import styles from './Detail.module.css';
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import NotFound from './NotFound';
 
 export default function Detail() {
     let [pokemon, setPokemon] = useState({}); 
-    const { id } = useParams();
+    let [dataLoaded, setDataLoaded] = useState(false);
     const { name } = useParams();
 
-    useEffect(() => {
-      axios(`http://localhost:3001/pokemons/?name=${name}`)
+    useEffect(() => {     
+        axios(`http://localhost:3001/pokemons/?name=${name}`)
         .then(({ data }) => {
-           if (data.name) {
-              setPokemon(data);
-           } else {
-              window.alert('No pokemon found with that ID');
-           }
-        });
-        return setPokemon({});
-     }, [id]);
-     
+            setPokemon(data);
+            setDataLoaded(true);
+        })
+        .catch((error) => {
+            setDataLoaded(true);
+            console.log('No pokemon found with that name');
+        })
+    }, [name]);
+
     return (
+        !dataLoaded ? (<div></div> )
+        :
         <>   
            {
-            pokemon ? (
-              <div id='Detail' className={styles.detail} 
-                     style={{ height: 630, width: 600, backgroundImage:`url(${pokemon.image})`}}>
+            pokemon.name ? (
+            <div id='Detail' className={styles.detail}>
+                  <img src={pokemon.image} alt={pokemon.name} className={styles.img}/>
+                  <div id='Detail info' className={styles.info} >
                   <Link to={'/home'} > 
                      <button className={styles.boton2} > X </button>
                   </Link>
-                  <div id='Detail info' className={styles.info} >
                      <h2> Details of </h2> 
                      <h2> {pokemon.name}</h2> 
                      <br></br>
@@ -41,13 +44,12 @@ export default function Detail() {
                      <h3> Weight : {pokemon.weight}</h3> 
                      <h3> Types : </h3> 
                   <div id='Types' key='Types' className={styles.types}>
-                     {pokemon.Types?.map(type => <h3 key={type}> {type} </h3>)}
+                     {pokemon.Types?.map(type => <h3 className={styles.info} key={type}> {type} </h3>)}
                   </div>
-                  {/* <img src={pokemon.image} alt={pokemon.name}/> */}
                   </div>
              </div>
             )
-            : (<h1>"No pokemon found with that ID"</h1>)
+            : (<NotFound></NotFound>)
            }
         </>
     )
