@@ -30,9 +30,9 @@ export default function Detail() {
             <div id='Detail' className={styles.detail}>
                   <img src={pokemon.image} alt={pokemon.name} className={styles.img}/>
                   <div id='Detail info' className={styles.info} >
-                  <Link to={'/home'} > 
-                     <button className={styles.boton2} > X </button>
-                  </Link>
+                    <Link to={'/home'} > 
+                        <button className={styles.boton2}> X </button>
+                    </Link>
                      <h2> Details of </h2> 
                      <h2> {pokemon.name}</h2> 
                      <br></br>
@@ -43,9 +43,9 @@ export default function Detail() {
                      <h3> Height : {pokemon.height}</h3> 
                      <h3> Weight : {pokemon.weight}</h3> 
                      <h3> Types : </h3> 
-                  <div id='Types' key='Types' className={styles.types}>
-                     {pokemon.Types?.map(type => <h3 className={styles.info} key={type}> {type} </h3>)}
-                  </div>
+                    <div id='Types' key='Types' className={styles.types}>
+                        {pokemon.Types?.map(type => <h3 className={styles.info} key={type}> {type} </h3>)}
+                    </div>
                   </div>
              </div>
             )

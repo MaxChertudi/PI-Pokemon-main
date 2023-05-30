@@ -177,7 +177,7 @@ export default function LandingPage () {
                 </div>
                 <div id='types' key='types' className={styles.types}>
                     {types?.map( (type, index) => (
-                        <label id={'label'+type}>
+                        <label id={'label'+type} key={'label'+type}>
                             <input type="checkbox" id={type} name={type} value={type} checked={checkboxStatus[index]}
                                 onChange={(event) => {handleFilterType(event)}} className={styles.input}/>
                                 {type} 

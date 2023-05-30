@@ -21,6 +21,8 @@
   }
 
 .types {
+  display: flex;
+  flex-direction: row;
   background-color: rgba(115, 117, 115, 0.706);
   border: 2px;
   margin: 1px;
