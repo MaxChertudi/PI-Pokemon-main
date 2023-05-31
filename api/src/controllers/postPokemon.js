@@ -4,8 +4,8 @@ const postPokemon = async (req, res) => {
     try {
         let { name, image, health, attack, defense, speed, height, weight, Types } = req.body;
         name = name.toLowerCase();
-        if (name && image && health && attack && defense && speed && height && weight && Types) {
 
+        if (name && image && health && attack && defense && speed && height && weight && Types) {
             // Does a pokemon name exists already?
             const dbSearch = await Pokemon.findOne( { where: { name: name} } );
             if (!dbSearch) {
