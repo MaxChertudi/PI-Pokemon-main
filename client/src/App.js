@@ -6,7 +6,7 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Detail from './components/Detail';
 import CreatePokemon from './components/CreatePokemon.jsx';
-import axios from 'axios';
+import UpdatePokemon from './components/UpdatePokemon';
 
 function App() {
 
@@ -28,6 +28,7 @@ function App() {
             <Route path= '/home' element={<Home/> } />
             <Route path= '/detail/:name' element={<Detail/>} />
             <Route path= '/createpokemon' element={<CreatePokemon/> } />
+            <Route path= '/updatepokemon/:name' element={<UpdatePokemon/> } />
         </Routes>  
     </div>
   );

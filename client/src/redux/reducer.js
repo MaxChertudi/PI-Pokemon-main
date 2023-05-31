@@ -1,10 +1,12 @@
-import { GET_POKEMONS, SAVE_POKEMON, ORDER, RENDERED_POKEMONS,
-        FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
-        ADD_TYPE_FILTER, DELETE_TYPE_FILTER, FILTER,
+import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_LOAD_DATA_DONE,
+        FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES, SET_ORDER_SELECTED,
+        ADD_TYPE_FILTER, DELETE_TYPE_FILTER, FILTER, SET_SHOW_EMPTY_RESULTS,
         SET_CURRENT_PAGE, SET_PAGE_COUNT, SET_SOURCE_FILTER } from "./types";
 
 
 const initialState = {
+    loadDataDone: false,
+    pokemonsLoaded: 0,
     allPokemons: [],
     filteredPokemons: [],
     renderedPokemons: [],
@@ -12,8 +14,10 @@ const initialState = {
     types: [],
     typesFilterSelected: [],
     sourceFilterSelected: 'All',
+    orderSelected: 'A-Z',
     currentPage : 0,
-    pageCount : 0
+    pageCount : 0,
+    showEmptyResults: false
  };
 
 const Reducer = (state=initialState, action) => {
@@ -22,6 +26,8 @@ const Reducer = (state=initialState, action) => {
 
         case GET_POKEMONS:
             return { ...state, 
+                    loadDataDone: true,
+                    pokemonsLoaded: action.payload.length,
                     allPokemons: action.payload,
                     filteredPokemons: action.payload,
                     renderedPokemons: action.payload.slice(0, 12) };
@@ -114,11 +120,24 @@ const Reducer = (state=initialState, action) => {
                     }                        
                     return found;
             });
-            if (finalFilter.length === 0) 
+            if (finalFilter.length === 0) {
+                state.showEmptyResults = true;
                 alert('That combination of filters has empty results.');
+            }
             return { ...state, 
                 filteredPokemons: finalFilter };
+                
+        case SET_LOAD_DATA_DONE:
+            return { ...state, 
+                loadDataDone: action.payload };
 
+        case SET_ORDER_SELECTED:
+            return { ...state,
+                orderSelected: action.payload };
+                
+        case SET_SHOW_EMPTY_RESULTS:
+            return { ...state,
+                showEmptyResults: action.payload };
 
         default:
             return {...state};

@@ -6,7 +6,7 @@
   margin: 10px;
   padding: 15px;
   width: 200px;
-  height: 460px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   flex-basis: 20%;
@@ -15,12 +15,11 @@
 }
 
 .img {
-  border-radius: 4px;
-  height: auto;
-  width: auto;
+  height: 220px;
+  width: 220px;
   }
 
-.types {
+.types2 {
   display: flex;
   flex-direction: row;
   background-color: rgba(115, 117, 115, 0.706);
@@ -32,13 +31,46 @@
   color: #1d77ab;
 }
 
-.source {
-  position: absolute;
-  margin: 1;
+.types {
+  display: flex;
+  text-align: center;
+  flex-direction:row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: rgba(115, 117, 115, 0.9);
+  border-radius: 10px;
+  border-color: rgb(134, 51, 23);
+  height:110px;
+  margin: 1px;
+  padding: 5px;
+  list-style: none;
+  list-style-type:none;
+}
+.type {
+  margin: 0px;
+}
+.divtitle {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+.divspace {
+  width: 100%;
+  height: 20px;
+}
+.cardbuttons {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  text-align: center;
+  flex-direction:row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .title {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 50px;
 }
 
 .boton2 {

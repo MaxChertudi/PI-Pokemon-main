@@ -1,7 +1,7 @@
-import { GET_POKEMONS, SAVE_POKEMON, ORDER, RENDERED_POKEMONS,
-   FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES,
+import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_SHOW_EMPTY_RESULTS,
+   FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES, SET_ORDER_SELECTED,
    ADD_TYPE_FILTER, DELETE_TYPE_FILTER, SET_CURRENT_PAGE,
-   SET_PAGE_COUNT, SET_SOURCE_FILTER, FILTER } from "./types";
+   SET_PAGE_COUNT, SET_SOURCE_FILTER, FILTER, SET_LOAD_DATA_DONE } from "./types";
 
 import axios from "axios";
 
@@ -87,3 +87,17 @@ export const filter = () => {
        payload : 0});
 }
 
+export const setLoadDataDone = (value) => {
+   return ({type : SET_LOAD_DATA_DONE,
+       payload : value});
+}
+
+export const setOrderSelected = (order) => {
+   return ({type : SET_ORDER_SELECTED,
+       payload : order});
+}
+
+export const setShowEmptyResults = (value) => {
+   return ({type : SET_SHOW_EMPTY_RESULTS,
+       payload : value});
+}

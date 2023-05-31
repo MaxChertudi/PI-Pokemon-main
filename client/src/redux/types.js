@@ -1,5 +1,4 @@
 export const GET_POKEMONS = 'GET_POKEMONS';
-export const SAVE_POKEMON = 'SAVE_POKEMON';
 export const ORDER = 'ORDER';
 export const GET_TYPES = 'GET_TYPES';
 export const FILTER_BY_SOURCE = 'FILTER_BY_SOURCE';
@@ -9,5 +8,8 @@ export const ADD_TYPE_FILTER = 'ADD_TYPE_FILTER';
 export const DELETE_TYPE_FILTER = 'DELETE_TYPE_FILTER';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_PAGE_COUNT = 'SET_PAGE_COUNT';
-export const SET_SOURCE_FILTER = 'SET_SOURCE_FILTER'
-export const FILTER = 'FILTER'
+export const SET_SOURCE_FILTER = 'SET_SOURCE_FILTER';
+export const FILTER = 'FILTER';
+export const SET_LOAD_DATA_DONE = 'SET_LOAD_DATA_DONE';
+export const SET_ORDER_SELECTED = 'SET_ORDER_SELECTED';
+export const SET_SHOW_EMPTY_RESULTS = 'SET_SHOW_EMPTY_RESULTS';

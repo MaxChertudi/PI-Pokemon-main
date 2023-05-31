@@ -11,6 +11,7 @@ export default function LandingPage () {
 
     const handleOrder = (event) => {
         event.preventDefault();
+        dispatch(actions.setOrderSelected(event.target.value));
         dispatch(actions.orderCards(event.target.value));
         dispatch(actions.renderPokemons(1));
     }
@@ -18,8 +19,7 @@ export default function LandingPage () {
      const handleFilterSource = (event) => {
         event.preventDefault();
         dispatch(actions.setSourceFilterSelected(event.target.value));
-        dispatch(actions.filter());
-        dispatch(actions.renderPokemons(1));
+        updateContent();
     }
 
     const handleFilterType = (event) => {
@@ -28,13 +28,13 @@ export default function LandingPage () {
         } else {
             dispatch(actions.deleteTypeFilter(event.target.value));
         }
-        dispatch(actions.filter());
+        updateContent();
+
         // Updates the checked status for the right checkbox
         const index = types.findIndex( (type) => type === event.target.value);
         let arrAux = checkboxStatus;
         arrAux[index] = !arrAux[index];
         setCheckboxStatus(arrAux);
-        dispatch(actions.renderPokemons(1));
     }
 
     const handleFilterTypeClearAll = (event) => {
@@ -45,8 +45,7 @@ export default function LandingPage () {
             dispatch(actions.deleteTypeFilter(type));
         });
         setCheckboxStatus(arrAux);
-        dispatch(actions.filter());
-        dispatch(actions.renderPokemons(1));
+        updateContent();
     }
 
     const handleFilterTypeSelectAll = (event) => {
@@ -57,8 +56,7 @@ export default function LandingPage () {
             dispatch(actions.addTypeFilter(type));
         });
         setCheckboxStatus(arrAux);
-        dispatch(actions.filter());
-        dispatch(actions.renderPokemons(1));
+        updateContent();
     }
 
     const handleResetFilters = (event) => {
@@ -93,13 +91,22 @@ export default function LandingPage () {
         }
     };
 
+    const updateContent = () => {
+        // Refreshes conent of Home based on selections
+        dispatch(actions.filter());
+        dispatch(actions.orderCards(orderSelected));
+        dispatch(actions.renderPokemons(1));
+    }
+
+
     const renderedPokemons = useSelector(state => state.renderedPokemons);
     const filteredPokemons = useSelector(state => state.filteredPokemons);
-    const allPokemons = useSelector(state => state.allPokemons);
     const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
+    const orderSelected = useSelector(state => state.orderSelected);
     const currentPage = useSelector(state => state.currentPage);
     const pageCount = useSelector(state => state.pageCount);
-    const [loadDone, setLoadDone] = useState(false);
+    const loadDataDone = useSelector(state => state.loadDataDone);
+    const showEmptyResults = useSelector(state => state.showEmptyResults);
     const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
                                                 true, true, true, true, true, true, true,
                                                 true, true, true, true, true, true ]);
@@ -107,8 +114,9 @@ export default function LandingPage () {
     const dispatch = useDispatch();
 
     // Load initial data
-    useEffect(() => {
-        if (allPokemons.length === 0) {
+    useEffect(() => {  
+        dispatch(actions.setShowEmptyResults(false));
+        if (!loadDataDone) {
             dispatch(actions.getAllPokemons());
             dispatch(actions.getTypes());
             
@@ -120,14 +128,13 @@ export default function LandingPage () {
             dispatch(actions.setPageCount());
             dispatch(actions.renderPokemons(1));
             setPage(1);
-            setLoadDone(true);
         }
-      }, []);
+    }, [loadDataDone]);
+    
+    //useEffect(() => { }, [filteredPokemons]);
 
-    useEffect(() => { }, [filteredPokemons]);
-
-    return (allPokemons.length === 0 ? (<div id='load' key='load'><Loading></Loading></div>)
-        // : filteredPokemons.length === 0 ? (<div id='empty' key='empty'><EmptyResults></EmptyResults></div>)
+    return (!loadDataDone ? (<div id='load' key='load'><Loading></Loading></div>)
+        // : showEmptyResults ? (<div id='empty' key='empty'><EmptyResults></EmptyResults></div>)
         :
         <div id='Home' key='Home' className={styles.home}>
             
@@ -141,8 +148,8 @@ export default function LandingPage () {
                 
                 <div id='Order' key='Order' className={styles.order}>
                     <h1 className={styles.title}>Order</h1>
-                    <div>
-                        <select name="Order" onChange={handleOrder} className={styles.dropdown}>  
+                    <div id='Order2' key='Order2'>
+                        <select name="Order" onChange={handleOrder} value={orderSelected} className={styles.dropdown}>  
                             <option value="A-Z">Asc  A - Z</option> 
                             <option value="Z-A">Desc  Z - A</option> 
                         </select> 
@@ -156,7 +163,7 @@ export default function LandingPage () {
                     <h1 className={styles.title}>Filters</h1>
                     <button className={styles.boton2} onClick={handleResetFilters}>Reset filters</button>
                     <h5 className={styles.subtitle}>By Source</h5>
-                    <div>
+                    <div id='Source' key='Source'>
                         <select name="Source" onChange={handleFilterSource} value={sourceFilterSelected} className={styles.dropdown}>  
                             <option value="All">All</option>
                             <option value="db">Database</option> 
@@ -181,7 +188,6 @@ export default function LandingPage () {
                                 onChange={(event) => {handleFilterType(event)}} className={styles.input}/>
                                 {type} 
                         </label>
-                        
                     )) }
                 </div>
             </div>

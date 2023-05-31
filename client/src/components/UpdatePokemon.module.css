@@ -1,0 +1,118 @@
+.create {
+  background-color: rgba(93, 199, 149, 0.712);
+  width:fit-content;
+  height:fit-content;
+  border-color: rgb(194, 18, 18);
+  border-radius: 15px;
+  border: 2px;
+  margin: 15px;
+  padding:15px;
+  position: absolute;
+  top: 10%;
+  left: 30%;
+}
+.close {
+  width:170;
+  border-color: rgb(194, 18, 18);
+  border-radius: 55px;
+  border: 0px;
+  margin: 0px;
+  padding: 1px;
+padding-left: 490px;
+}
+.form {
+  background-color: rgba(93, 199, 150, 0.946);
+  width: fit-content;
+  height: fit-content;
+  border-color: rgb(194, 18, 18);
+  border-radius: 15px;
+  border: 2px;
+  margin: 15px;
+  padding:10px;
+  display:flex;
+  text-align: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.img {
+  border-radius: 4px;
+  height: 150px;
+  width: 150px;
+  padding:15px;
+  }
+.msj {
+  margin-bottom: 0;
+  color: rgb(236, 240, 240);
+}
+.danger {
+  margin-bottom: 0;
+  color: rgb(134, 25, 3);
+}
+.title {
+  margin: 0;
+  color: rgb(236, 240, 240);
+  font-size: 50px;
+  font-weight: 900;
+}
+.types {
+  display:flex;
+  text-align: left;
+  flex-direction:column;
+  flex-wrap: wrap;
+  background-color: rgba(115, 117, 115, 0.187);
+  border-radius: 15px;
+  border-color: rgb(134, 51, 23);
+  width:100px;
+  height:58%;
+  padding-left: 30px;
+  margin: 0px;
+  padding-top: 0;
+}
+.buttons {
+  /* display:flex;
+  flex-direction:row;
+  flex-wrap: wrap; */
+  background-color: rgba(115, 117, 115, 0.187);
+  border-radius: 15px;
+  width:500px;
+  height:60px;
+}
+.input {
+  width: 15px;
+  height: 25px;
+  padding: 0;
+  margin: 3px;
+  vertical-align: bottom;
+  position: relative;
+  top: 5px;
+}
+  .boton2 {
+    position: relative;
+    right: 50;
+    bottom: 0;
+    background: #e62143;
+    border-radius: 11px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: Mija, -apple-system, BlinkMacSystemFont, Roboto, "Roboto Slab",
+      "Droid Serif", "Segoe UI", system-ui, Arial, sans-serif;
+    font-size: 1.15em;
+    justify-content: center;
+    padding: 0.1rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    text-decoration-skip-ink: auto;
+    text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px;
+    text-underline-offset: 1px;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 2.4Srem;
+    height: 2rem;
+    word-break: break-word;
+    border: 20;
+  }
+  

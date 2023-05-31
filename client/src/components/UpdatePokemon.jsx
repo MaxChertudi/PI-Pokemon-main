@@ -2,19 +2,22 @@ import styles from "./CreatePokemon.module.css";
 import img from '../images/placeholder.jpg';
 import axios from 'axios';
 import * as actions from '../redux/actions';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 // https://www.pokemon.com/static-assets/app/static3/img/og-default-image.jpeg
 
 
-export default function CreatePokemon () {
+export default function UpdatePokemon () {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { name } = useParams();
     let [userData, setUserData] = useState({name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 });
+    let [id, setId] = useState(0);
     let [errors, setErrors] = useState({});
     let [disabled, setDisabled] = useState(true);
+    let [dataLoaded, setDataLoaded] = useState(false);
     const loadDataDone = useSelector(state => state.loadDataDone);
     const types = useSelector(state => state.types);
     const [checkboxStatus, setCheckboxStatus] = useState([false, false, false, false, false, false, false, 
@@ -26,7 +29,7 @@ export default function CreatePokemon () {
         setErrors(validate({...userData, [event.target.name]: event.target.value}));
     }
     
-    const handleSubmit = async (event) => {
+    const handleUpdate = async (event) => {
         event.preventDefault(); 
         try {
             // Get list of selected types
@@ -35,20 +38,18 @@ export default function CreatePokemon () {
                 if (checkboxStatus[i]) 
                     arrTypes.push(types[i]);
             userData['Types'] = arrTypes;
-            const result = await axios.post('http://localhost:3001/pokemons', userData);
+            userData['id'] = id;
+            const result = await axios.put('http://localhost:3001/pokemons', userData);
 
-            // Clear form data
-            alert('Pockemon ' + userData.name + ' saved !');
-            setUserData({name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 });
-            setCheckboxStatus([false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false, false, false, false, false, false ]);
-            setDisabled(true);
+            dispatch(actions.setLoadDataDone(false));
+            alert('Pockemon ' + userData.name + ' updated !');
+            navigate('/home');
 
         } catch(error) {
             if (error.response.status === 401)
                 setErrors({ name: 'Pokemon name already exists !' });
-            console.log('Error saving pokemon on db: ', error.response.data);
-            alert('Error saving pokemon on db: ' + error.response.data);
+            console.log('Error updating pokemon on db: ', error.response.data);
+            alert('Error updating pokemon on db: ' + error.response.data);
         }
     }
 
@@ -113,15 +114,44 @@ export default function CreatePokemon () {
         navigate('/home');
     }
     
-    useEffect(() => { }, [setCheckboxStatus]);
+     useEffect(() => { }, [setCheckboxStatus]);
 
-    return (
+    useEffect(() => {     
+        axios(`http://localhost:3001/pokemons/?name=${name}`)
+        .then(({ data }) => {
+            userData.name = data.name;
+            userData.image = data.image;
+            userData.health = data.health;
+            userData.attack = data.attack;
+            userData.defense = data.defense;
+            userData.speed = data.speed;
+            userData.height = data.height;
+            userData.weight = data.weight;
+            userData['Types'] = data.Types;
+            setId(data.id);
+
+            // Mirror types to checkboxes
+            for (let i=0; i < userData.Types.length; i++) {
+                let index = types.findIndex( type => type === userData.Types[i] )
+                checkboxStatus[index] = true;
+            }
+            setDataLoaded(true);
+            setDisabled(false);
+        })
+        .catch((error) => {
+            setDataLoaded(true);
+            console.log('No pokemon found with that name');
+        })
+    }, []);
+
+    return ( !dataLoaded ? (<div></div> )
+        :
         <div id='createpokemon' key='createpokemon' className={styles.create}>
             <div id='close' key='close' className={styles.close}>
                 <button type='button' className={styles.boton2} onClick={goHome}> X </button>
             </div>
-            <h1 className={styles.title}>Create Pokemon</h1>
-            <form onSubmit={handleSubmit} className={styles.form}> 
+            <h1 className={styles.title}>Update Pokemon</h1>
+            <form onSubmit={handleUpdate} className={styles.form}> 
             <div id='fields' key='fields'>
                 <div id='f1' key='f1'>
                 <h5 className={errors.name ? styles.danger : styles.msj}>{errors.name ? errors.name : 'Type the name...'}</h5>
@@ -188,7 +218,7 @@ export default function CreatePokemon () {
                     )) }
                 </div>
             </form> 
-                <button type='button' onClick={handleSubmit} className={styles.boton2} disabled={disabled}> Create Pokemon </button>
+                <button type='button' onClick={handleUpdate} className={styles.boton2} disabled={disabled}> Update Pokemon </button>
         </div>
     )
 }

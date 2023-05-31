@@ -20,7 +20,7 @@ export default function Detail() {
             console.log('No pokemon found with that name');
         })
     }, [name]);
-console.log(pokemon);
+
     return (
         !dataLoaded ? (<div></div> )
         :
