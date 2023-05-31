@@ -20,21 +20,20 @@
     }
   .info {
     background-color: rgb(130, 177, 177);
-    width:170;
-    border-color: rgb(194, 18, 18);
-    border-radius: 55px;
+    width:100%;
     border: 0px;
     margin: 0px;
-    padding: 15px;
+    padding: 0px;
+    height: fit-content;
   }
 
   .types {
     background-color: rgb(130, 177, 177);
-    border: 2px;
     margin: 1px;
-    padding: 15px;
-    width: fit-content;
-    height: fit-content;
+    padding-top: 0%;
+    padding: 0px;
+    width: 180;
+    height: 50;
     color: #c85821;
   }
  

@@ -23,7 +23,6 @@ export default function LandingPage () {
     }
 
     const handleFilterType = (event) => {
-        event.preventDefault();
         if (event.target.checked) {
             dispatch(actions.addTypeFilter(event.target.value))
         } else {

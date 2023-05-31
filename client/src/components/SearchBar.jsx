@@ -17,13 +17,19 @@ export default function SearchBar({props}) {
         }
     }
 
-   return (
-      <div id='searchbar' className={styles.searchBox}>
-        <input id='box' type='search' className={styles.input} onChange={handleChange}/>
-        {error && <p>{error}</p>}
-        <Link to={`/detail/${name}`}>
-            <button className={styles.boton2}>Search name</button>
-        </Link>
+    return (
+        <div id='searchbar' key='searchbar' className={styles.searchBox}>
+            <div id='sb1' key='sb1' className={styles.sb1}>
+                <input id='box' type='search' className={styles.input} onChange={handleChange}/>
+                    {error && <p className={styles.error}>{error}</p>}
+            </div>
+            <div id='sb2' key='sb2' className={styles.sb2}>
+            </div>
+            <div id='sb3' key='sb3'>
+                <Link to={`/detail/${name}`}>
+                    <button className={styles.boton2}>Search pokemon by name</button>
+                </Link>
+            </div>
       </div>
    );
 }

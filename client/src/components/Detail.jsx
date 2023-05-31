@@ -20,16 +20,16 @@ export default function Detail() {
             console.log('No pokemon found with that name');
         })
     }, [name]);
-
+console.log(pokemon);
     return (
         !dataLoaded ? (<div></div> )
         :
         <>   
            {
             pokemon.name ? (
-            <div id='Detail' className={styles.detail}>
+            <div id='Detail' key='Detail' className={styles.detail}>
                   <img src={pokemon.image} alt={pokemon.name} className={styles.img}/>
-                  <div id='Detail info' className={styles.info} >
+                  <div id='Detail info' key='Detail info' className={styles.info} >
                     <Link to={'/home'} > 
                         <button className={styles.boton2}> X </button>
                     </Link>

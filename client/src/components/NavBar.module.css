@@ -4,46 +4,59 @@
   height: 60px;
   color: white;
   display:flex;
+  text-align: left;
   flex-direction:row;
+  flex-wrap: wrap;
 }
 
-img {
-  opacity: 1;
+.divboton {
+  display:flex;
+  text-align: left;
+  flex-direction:column;
+  flex-wrap: wrap;
+  width:100px;
+  height:58%;
+  padding-left: 30px;
+  margin: 0px;
+  padding-top: 0;
 }
-
-.active {
-  color: brown;
-  font-weight: bold;
-  text-decoration: none;
+.divleft {
+  border-radius: 15px;
+  border-color: rgb(134, 51, 23);
+  width:250px;
+  height:100%;
+  padding-left: 30px;
+  margin: 15px;
+  padding-top: 0;
 }
-
-.disable {
-  color: #4d4715;
-  text-decoration: none;
+.divcenter {
+  width:200px;
+  height:100%;
+  padding-left: 30px;
+  margin: 15px;
+  padding-top: 0;
+}
+.divright {
+  width:600px;
+  height:100%;
+  padding-left: 90px;
+  margin: 15px;
+  padding-top: 0;
 }
 
 .title {
-  margin: auto;
+  margin: -5px;
 }
 
-.botones {
-  height: 50;
-  color: black;
-  margin: auto;
-  width: 100;
-  justify-content: space-between;
-}
-
-.botones2 {
-  position: absolute;
-  left: 23.6rem;
-  top: 1rem;
+.boton2 {
+  position: relative;
+  right: 50;
+  bottom: 0;
   background: #e62143;
   border-radius: 11px;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  display: flex;
   font-family: Mija, -apple-system, BlinkMacSystemFont, Roboto, "Roboto Slab",
     "Droid Serif", "Segoe UI", system-ui, Arial, sans-serif;
   font-size: 1.15em;
@@ -61,5 +74,5 @@ img {
   width: 2.4Srem;
   height: 2rem;
   word-break: break-word;
-  border: 0;
+  border: 20;
 }

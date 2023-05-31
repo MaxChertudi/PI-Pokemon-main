@@ -45,6 +45,7 @@ export default function CreatePokemon () {
             if (error.response.status === 401)
                 setErrors({ name: 'Pokemon name already exists !' });
             console.log('Error saving pokemon on db: ', error.message);
+            alert('Error saving pokemon on db: ', error.message);
         }
     }
 
@@ -52,6 +53,7 @@ export default function CreatePokemon () {
         const regExp_letters = new RegExp(/^[A-Za-z]+$/);
         const regExp_image = new RegExp(/(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?/);
         const regExp_numbers = new RegExp(/^[1-9]+[0-9]*$/);
+        const regExp_numbersdecimal = new RegExp(/\+?(\d+(\.(\d+)?)?|\.\d+)/);
 
         let err = { name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 };
         
@@ -60,20 +62,34 @@ export default function CreatePokemon () {
         if (!regExp_image.test(inputs.image))
             err.image = 'URL must belong to an image file !';
         if (!regExp_numbers.test(inputs.health))
-            err.health = 'Health must be a positive number !';
+            err.health = 'Health must be an integer positive number !';
+        else
+            if (inputs.health > 500)
+                err.health = 'Health must be a below 500 !';
         if (!regExp_numbers.test(inputs.attack))
-            err.attack = 'Attack must be a positive number !';
+            err.attack = 'Attack must be an integer positive number !';
+        else
+            if (inputs.attack > 99)
+                err.attack = 'Health must be a below 99 !';
         if (!regExp_numbers.test(inputs.defense))
-            err.defense = 'Defense must be a positive number !';
+            err.defense = 'Defense must be an integer positive number !';
+        else
+            if (inputs.defense > 252)
+                err.defense = 'Health must be a below 252 !';
         if (!regExp_numbers.test(inputs.speed))
-            err.speed = 'Speed must be a positive number !';
-        if (!regExp_numbers.test(inputs.height))
+            err.speed = 'Speed must be an integer positive number !';
+        else
+            if (inputs.speed > 222)
+                err.speed = 'Health must be a below 222 !';
+        if (!regExp_numbersdecimal.test(inputs.height))
             err.height = 'Height must be a positive number !';
-        if (!regExp_numbers.test(inputs.weight))
+        if (!regExp_numbersdecimal.test(inputs.weight))
             err.weight = 'Weight must be a positive number !';
-        
-        let errFree = { name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 };     
-        if (JSON.stringify(err) === JSON.stringify(errFree))
+
+        // Determine if input fields are good for submit
+        const chkbox = checkboxStatus.find( check => check === true);
+        let errFree = { name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 };
+        if (JSON.stringify(err) === JSON.stringify(errFree) && chkbox)
             setDisabled(false);
         else    
             setDisabled(true);
@@ -81,20 +97,11 @@ export default function CreatePokemon () {
     }
 
     const handleFilterType = (event) => {
-        //event.preventDefault();
-        if (event.target.checked) {
-//            dispatch(actions.addTypeFilter(event.target.value))
-
-        } else {
-  //          dispatch(actions.deleteTypeFilter(event.target.value));
-        }
-        // Updates the checked status for the right checkbox
         const index = types.findIndex( (type) => type === event.target.value);
         let arrAux = checkboxStatus;
         arrAux[index] = !arrAux[index];
         setCheckboxStatus(arrAux);
-
-        console.log("event.target.checked:", event.target.checked, "checkboxStatus:", checkboxStatus);
+        setErrors(validate({...userData, [event.target.name]: event.target.value}));
     }
     
     function goHome() {
@@ -105,8 +112,10 @@ export default function CreatePokemon () {
 
     return (
         <div id='createpokemon' key='createpokemon' className={styles.create}>
+            <div id='close' key='close' className={styles.close}>
+                <button type='button' className={styles.boton2} onClick={goHome}> X </button>
+            </div>
             <h1 className={styles.title}>Create Pokemon</h1>
-
             <form onSubmit={handleSubmit} className={styles.form}> 
                 <div>
                 <div>
@@ -164,7 +173,7 @@ export default function CreatePokemon () {
                 <div className={styles.types}></div>
 
                 <div id='types' key='types' className={styles.types}>
-                    <h2 Types></h2>
+                    <h2> Types</h2>
                     {types?.map( (type, index) => (
                         <label id={'label'+type} key={'label'+type}>
                             <input type="checkbox" id={type} name={type} value={type} checked={checkboxStatus[index]}
@@ -174,8 +183,7 @@ export default function CreatePokemon () {
                     )) }
                 </div>
                 <button type='submit' className={styles.boton2} disabled={disabled}> Submit </button>
-            </form>
-            <button type='button' className={styles.boton2} onClick={goHome}> Home </button>
+            </form> 
         </div>
     )
 }

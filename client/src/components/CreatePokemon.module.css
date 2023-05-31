@@ -11,6 +11,15 @@
   top: 10%;
   left: 30%;
 }
+.close {
+  width:170;
+  border-color: rgb(194, 18, 18);
+  border-radius: 55px;
+  border: 0px;
+  margin: 0px;
+  padding: 1px;
+padding-left: 490px;
+}
 .form {
   background-color: rgba(93, 199, 150, 0.946);
   width: fit-content;
@@ -79,7 +88,7 @@
   top: 5px;
 }
   .boton2 {
-    position: absolute;
+    position: relative;
     right: 50;
     bottom: 0;
     background: #e62143;

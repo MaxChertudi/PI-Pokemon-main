@@ -1,21 +1,24 @@
 import styles from './NavBar.module.css';
 import SearchBar from './SearchBar.jsx';
-import { NavLink} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar(props) {
+    const navigate = useNavigate();
+    
+    function go() {
+        navigate('/createpokemon');
+    }
+
     return ( 
     <>     
-        <div id='NavBar' className={styles.container}>
-            {/* <img src={require("../images/logo.png")} alt='logo' width="80" height="60" className={styles.img}/> */}
-            <h1 className={styles.title}> Pokemon PI </h1>
-            <div id='botones' className={styles.botones}>
-                <button className={styles.botones} >
-                    <NavLink to='/createpokemon' className={({isActive}) => (isActive ? styles.active : styles.disable)}>
-                        <span>Create Pokemon</span>
-                    </NavLink> 
-                </button>
+        <div id='NavBar' key='NavBar'className={styles.container}>
+            <div id='NavBar_left' key='NavBar_left' className={styles.divleft}>
+                <h1 className={styles.title}> Pokemon PI </h1>
+            </div>
+            <div id='divcenter' key='divcenter' className={styles.divcenter}>
+                <button type='button' className={styles.boton2} onClick={go}> Create pokemon </button>
             </div>    
-            <div id='SearchBar'>
+            <div id='SearchBar' key='SearchBar' className={styles.divright}>
                 <SearchBar props={props}/>
             </div>
         </div>
