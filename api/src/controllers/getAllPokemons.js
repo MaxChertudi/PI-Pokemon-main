@@ -6,7 +6,7 @@ const getAllPokemons = async(req, res) => {
         // Gather db data 
         const dbPokemons = await dbGetAllPokemons();
         // gather API data
-        const endpointAll = "https://pokeapi.co/api/v2/pokemon/?limit=60";
+        const endpointAll = "https://pokeapi.co/api/v2/pokemon/?limit=20";
         const apiResultAll =  await axios(endpointAll);
         const arrPokemons = apiResultAll.data.results;
         const arrResult = [];

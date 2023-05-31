@@ -12,7 +12,7 @@ const getPokemonByName = async(req, res) => {
             
             // extract type names from result
             const typeNames = types.map((type) => type.dataValues.name);
-            const objTypeNames = { Type: typeNames};
+            const objTypeNames = { Types: typeNames};
 
             // Merge pokemon data with associated Types 
             const obj = {...dbSearch.dataValues, ...objTypeNames, Source: 'db'};
@@ -25,7 +25,7 @@ const getPokemonByName = async(req, res) => {
                     id: apiResult.data.id,
                     name: apiResult.data.name,
                     image: apiResult.data.sprites.other.home.front_shiny,
-                    type: apiResult.data.types.map((type) => type.type.name),
+                    Types: apiResult.data.types.map((type) => type.type.name),
                     health: apiResult.data.stats[0].base_stat,
                     attack: apiResult.data.stats[1].base_stat,
                     defense: apiResult.data.stats[2].base_stat,
