@@ -9,7 +9,7 @@ const dbPopulateTypes = async () => {
 
         // Load Type table with API results
         for(i=0; i<results.length; i++) {
-            const addedType = await Type.create({name: results[i].name});
+            const addedType = await Type.create({ name: results[i].name });
         }  
     } catch (error) { 
         throw new Error(error.message);

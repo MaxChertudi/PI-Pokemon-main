@@ -34,7 +34,6 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 });
 
 // Initializa db and Populate Type table from Pokemons API
-//dbInit();
-//dbPopulateTypes();
+dbInit();
 
 module.exports = server;

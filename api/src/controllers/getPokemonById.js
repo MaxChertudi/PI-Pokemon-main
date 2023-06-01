@@ -19,7 +19,7 @@ const getPokemonById = async(req, res) => {
             res.status(200).json(obj);
         } else {
             const endpoint = "https://pokeapi.co/api/v2/pokemon/";
-            const apiResult =  await axios(endpoint+p_id);
+            const apiResult = await axios(endpoint+p_id);
             const obj = {
                 id: apiResult.data.id,
                 name: apiResult.data.name,

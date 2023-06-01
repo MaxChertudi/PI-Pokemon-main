@@ -1,22 +1,21 @@
-const { Pokemon } = require('../db.js');
+const dbdeletePokemonById = require('../database/dbdeletePokemonById');
 
-const deletePokemonById = async (req, res, idFromPut) => {
+const deletePokemonById = async (req, res) => {
     try {
-        let { id } = req.params;
-        if (idFromPut) // if call comes form PUT, Id is parameter
-            id = idFromPut;
+        let { id } = req.body;
+        if (!id)
+            id = req.params.id;
         if (id) {
-            const pokemon = await Pokemon.findOne( { where: { id: id} } );
-            if (pokemon) {
-                pokemon.destroy();
-                await pokemon.destroy({ force: true });
-                res.status(200).json(pokemon);
-            } else
-                return res.status(401).send('Pokemon with ID ' + id + ' not found');
+            const obj = await dbdeletePokemonById(id);
+            if (obj.id) {
+                return res.status(200).json(obj);
+            }else {
+                return res.status(501).send(obj);
+            }
         } else
-            return res.status(401).send('Missing ID');
+            return res.status(401).send('dbdeletePokemonById: Pokemon with ID ' + id + ' not found');
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 }
 

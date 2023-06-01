@@ -32,7 +32,7 @@ const getAllPokemons = async(req, res) => {
         const arrResultAll = [...dbPokemons.arrPokemons, ...arrResult];
         res.status(200).json(arrResultAll);
     } catch(error) {
-        res.status(500).send(error.message);
+        res.status(501).send(error.message);
     }
 }  
 
