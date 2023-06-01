@@ -1,5 +1,5 @@
 .container {
-  background: #3fa765;
+  background: #f5b260;
   width: 100%;
   height: 60px;
   color: white;
@@ -46,6 +46,7 @@
 
 .title {
   margin: -5px;
+  color: black
 }
 
 .boton2 {

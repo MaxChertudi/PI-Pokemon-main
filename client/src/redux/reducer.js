@@ -21,7 +21,6 @@ const initialState = {
  };
 
 const Reducer = (state=initialState, action) => {
-
     switch (action.type) {
 
         case GET_POKEMONS:
@@ -34,6 +33,7 @@ const Reducer = (state=initialState, action) => {
         
         case GET_TYPES:
             return { ...state, 
+                    typesFilterSelected: action.payload.sort(),
                     types: action.payload.sort() };
         
         case FILTER_BY_SOURCE:

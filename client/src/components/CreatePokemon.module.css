@@ -1,15 +1,22 @@
 .create {
-  background-color: rgba(93, 199, 149, 0.712);
+  background-color: rgba(12, 60, 84, 0.918);
   width:fit-content;
   height:fit-content;
   border-color: rgb(194, 18, 18);
   border-radius: 15px;
   border: 2px;
-  margin: 15px;
-  padding:15px;
+  margin: 1px;
+  padding:5px;
   position: absolute;
-  top: 10%;
+  top: 8%;
   left: 30%;
+}
+.divtop {
+  display:flex;
+  text-align: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between
 }
 .close {
   width:170;
@@ -18,10 +25,9 @@
   border: 0px;
   margin: 0px;
   padding: 1px;
-padding-left: 490px;
 }
 .form {
-  background-color: rgba(93, 199, 150, 0.946);
+  background-color: rgba(115, 118, 123, 0.986);
   width: fit-content;
   height: fit-content;
   border-color: rgb(194, 18, 18);
@@ -54,13 +60,14 @@ padding-left: 490px;
   color: rgb(236, 240, 240);
   font-size: 50px;
   font-weight: 900;
+  padding-left: 65px;
 }
 .types {
   display:flex;
   text-align: left;
   flex-direction:column;
   flex-wrap: wrap;
-  background-color: rgba(115, 117, 115, 0.187);
+  background-color: rgba(37, 39, 37, 0.187);
   border-radius: 15px;
   border-color: rgb(134, 51, 23);
   width:100px;

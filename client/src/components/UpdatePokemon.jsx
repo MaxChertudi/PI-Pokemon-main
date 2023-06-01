@@ -117,7 +117,7 @@ export default function UpdatePokemon () {
         navigate('/home');
     }
     
-     useEffect(() => { }, [setCheckboxStatus]);
+    useEffect(() => { }, [setCheckboxStatus]);
 
     useEffect(() => {     
         axios(`http://localhost:3001/pokemons/?name=${name}`)

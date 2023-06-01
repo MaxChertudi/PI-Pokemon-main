@@ -117,10 +117,15 @@ export default function CreatePokemon () {
 
     return (
         <div id='createpokemon' key='createpokemon' className={styles.create}>
-            <div id='close' key='close' className={styles.close}>
-                <button type='button' className={styles.boton2} onClick={goHome}> X </button>
+            <div id='top' key='top' className={styles.divtop}>
+                <div id='title' key='title' className={styles.divtitle}>
+                <h1 className={styles.title}>Create Pokemon</h1>
+                </div>
+                <div id='close' key='close' className={styles.close}>
+                    <button type='button' className={styles.boton2} onClick={goHome}> X </button>
+                </div>
             </div>
-            <h1 className={styles.title}>Create Pokemon</h1>
+
             <form onSubmit={handleSubmit} className={styles.form}> 
             <div id='fields' key='fields'>
                 <div id='f1' key='f1'>

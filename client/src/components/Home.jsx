@@ -7,7 +7,22 @@ import Pagination from './Pagination';
 import Loading from './Loading';
 import EmptyResults from './EmptyResults';
 
-export default function LandingPage () {
+export default function LandingPage () {  
+    const renderedPokemons = useSelector(state => state.renderedPokemons);
+    const filteredPokemons = useSelector(state => state.filteredPokemons);
+    const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
+    const orderSelected = useSelector(state => state.orderSelected);
+    const currentPage = useSelector(state => state.currentPage);
+    const pageCount = useSelector(state => state.pageCount);
+    const loadDataDone = useSelector(state => state.loadDataDone);
+    const typesLoadDataDone = useSelector(state => state.typesLoadDataDone);
+    const showEmptyResults = useSelector(state => state.showEmptyResults);
+    const types = useSelector(state => state.types);
+    const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
+                                                true, true, true, true, true, true, true,
+                                                true, true, true, true, true, true ]);
+    const dispatch = useDispatch();
+
 
     const handleOrder = (event) => {
         event.preventDefault();
@@ -16,7 +31,7 @@ export default function LandingPage () {
         dispatch(actions.renderPokemons(1));
     }
      
-     const handleFilterSource = (event) => {
+    const handleFilterSource = (event) => {
         event.preventDefault();
         dispatch(actions.setSourceFilterSelected(event.target.value));
         updateContent();
@@ -98,40 +113,23 @@ export default function LandingPage () {
         dispatch(actions.renderPokemons(1));
     }
 
-
-    const renderedPokemons = useSelector(state => state.renderedPokemons);
-    const filteredPokemons = useSelector(state => state.filteredPokemons);
-    const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
-    const orderSelected = useSelector(state => state.orderSelected);
-    const currentPage = useSelector(state => state.currentPage);
-    const pageCount = useSelector(state => state.pageCount);
-    const loadDataDone = useSelector(state => state.loadDataDone);
-    const showEmptyResults = useSelector(state => state.showEmptyResults);
-    const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
-                                                true, true, true, true, true, true, true,
-                                                true, true, true, true, true, true ]);
-    const types = useSelector(state => state.types);
-    const dispatch = useDispatch();
-
     // Load initial data
     useEffect(() => {  
         dispatch(actions.setShowEmptyResults(false));
         if (!loadDataDone) {
-            dispatch(actions.getAllPokemons());
             dispatch(actions.getTypes());
-            
-            // Add types to filter
-            types?.map(( type) => {
-                dispatch(actions.addTypeFilter(type));
-            });
+            dispatch(actions.getAllPokemons());
 
+            // Add types to filter at startup
+            types?.map( (type) => { dispatch(actions.addTypeFilter(type)); } );
+
+            dispatch(actions.setOrderSelected(orderSelected));
+            dispatch(actions.orderCards(orderSelected));
             dispatch(actions.setPageCount());
             dispatch(actions.renderPokemons(1));
             setPage(1);
         }
     }, [loadDataDone]);
-    
-    //useEffect(() => { }, [filteredPokemons]);
 
     return (!loadDataDone ? (<div id='load' key='load'><Loading></Loading></div>)
         // : showEmptyResults ? (<div id='empty' key='empty'><EmptyResults></EmptyResults></div>)
@@ -170,7 +168,7 @@ export default function LandingPage () {
                             <option value="api">Pokemon API</option> 
                         </select>
                     </div>
-                </div>
+                
 
                 <div id='ByType' key='ByType' className={styles.filtersbyttype}>
                     <br></br> 
@@ -189,6 +187,7 @@ export default function LandingPage () {
                                 {type} 
                         </label>
                     )) }
+                </div>
                 </div>
             </div>
            
