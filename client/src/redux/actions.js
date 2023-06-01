@@ -6,35 +6,31 @@ import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_SHOW_EMPTY_RESULTS,
 import axios from "axios";
 
 export const getTypes = () => {
-   try {
-   const endpoint = 'http://localhost:3001/types';
    return async(dispatch) => {
-         const {data} = await axios(endpoint);
+      try {
+         const {data} = await axios('http://localhost:3001/types');
          return dispatch({
             type: GET_TYPES,
-            payload: data,
-            });
-      };
-   }
-   catch (error) {
-      return {error: error.message};
-   }
+            payload: data });
+      } catch (error) {
+         alert('Server is down !!!!');
+         return {error: error.message};
+      }
+   };
 };
 
 export const getAllPokemons = () => {
-   try {
-   const endpoint = 'http://localhost:3001/pokemons';
    return async(dispatch) => {
-         const {data} = await axios(endpoint);
+      try {
+         const {data} = await axios('http://localhost:3001/pokemons');
          return dispatch({
             type: GET_POKEMONS,
-            payload: data,
-            });
-      };
-   }
-   catch (error) {
-      return {error: error.message};
-   }
+            payload: data });
+      } catch (error) {
+         alert('Server is down !!!!');
+         return {error: error.message};
+      }
+   };
 };
 
 export const filterBySource = (source) => {

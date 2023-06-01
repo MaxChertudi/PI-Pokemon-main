@@ -30,8 +30,8 @@ export default function UpdatePokemon () {
     }
     
     const handleUpdate = async (event) => {
-        event.preventDefault(); 
         try {
+            event.preventDefault(); 
             // Get list of selected types
             let arrTypes = [];
             for (let i=0; i<types.length; i++) 
@@ -39,13 +39,16 @@ export default function UpdatePokemon () {
                     arrTypes.push(types[i]);
             userData['Types'] = arrTypes;
             userData['id'] = id;
-            const result = await axios.put('http://localhost:3001/pokemons', userData);
+
+            const aDelete = await axios.delete('http://localhost:3001/pokemons/' + userData.id );
+            const aPost = await axios.post('http://localhost:3001/pokemons', userData);
 
             dispatch(actions.setLoadDataDone(false));
             alert('Pockemon ' + userData.name + ' updated !');
             navigate('/home');
-
-        } catch(error) {
+            
+        } catch(error){
+            console.log(error);
             if (error.response.status === 401)
                 setErrors({ name: 'Pokemon name already exists !' });
             console.log('Error updating pokemon on db: ', error.response.data);

@@ -13,7 +13,7 @@ export default function Card(props) {
     const handleDelete = async () => {
         try {
             const result = await axios.delete('http://localhost:3001/pokemons/' + props.id );
-            alert('Pokemon ' + props.name + 'has been deleted');
+            alert('Pokemon ' + props.name + ' has been deleted');
             // Force reload data on Home
             dispatch(actions.setLoadDataDone(false));
         } catch(error) {
