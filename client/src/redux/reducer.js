@@ -29,7 +29,8 @@ const Reducer = (state=initialState, action) => {
                     pokemonsLoaded: action.payload.length,
                     allPokemons: action.payload,
                     filteredPokemons: action.payload,
-                    renderedPokemons: action.payload.slice(0, 12) };
+                    renderedPokemons: action.payload.slice(0, 12),
+                    pageCount: Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons) };
         
         case GET_TYPES:
             return { ...state, 
