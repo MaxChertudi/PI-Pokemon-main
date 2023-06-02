@@ -1,7 +1,5 @@
 import styles from "./NotFound.module.css";
 import { Link } from "react-router-dom";
-import * as actions from '../redux/actions';
-import { useDispatch, useSelector } from "react-redux";
 
 export default function EmptyResults () {
     return (

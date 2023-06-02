@@ -5,24 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from '../redux/actions';
 import Pagination from './Pagination';
 import Loading from './Loading';
-import EmptyResults from './EmptyResults';
 
 export default function LandingPage () {  
     const renderedPokemons = useSelector(state => state.renderedPokemons);
-    const filteredPokemons = useSelector(state => state.filteredPokemons);
     const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
     const orderSelected = useSelector(state => state.orderSelected);
     const currentPage = useSelector(state => state.currentPage);
     const pageCount = useSelector(state => state.pageCount);
     const loadDataDone = useSelector(state => state.loadDataDone);
-    const typesLoadDataDone = useSelector(state => state.typesLoadDataDone);
-    const showEmptyResults = useSelector(state => state.showEmptyResults);
     const types = useSelector(state => state.types);
+    const dispatch = useDispatch();
     const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
                                                 true, true, true, true, true, true, true,
                                                 true, true, true, true, true, true ]);
-    const dispatch = useDispatch();
-
 
     const handleOrder = (event) => {
         event.preventDefault();
@@ -115,7 +110,7 @@ export default function LandingPage () {
 
     // Load initial data
     useEffect(() => {  
-        dispatch(actions.setShowEmptyResults(false));
+        dispatch(actions.setShowEmptyResults(false));     
         if (!loadDataDone) {
             dispatch(actions.getTypes());
             dispatch(actions.getAllPokemons());
@@ -129,10 +124,9 @@ export default function LandingPage () {
             dispatch(actions.renderPokemons(1));
             setPage(1);
         }
-    }, [loadDataDone]);
+}, [loadDataDone]);
 
     return (!loadDataDone ? (<div id='load' key='load'><Loading></Loading></div>)
-        // : showEmptyResults ? (<div id='empty' key='empty'><EmptyResults></EmptyResults></div>)
         :
         <div id='Home' key='Home' className={styles.home}>
             

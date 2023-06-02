@@ -1,4 +1,4 @@
-import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_LOAD_DATA_DONE,
+import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_LOAD_DATA_DONE, 
         FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES, SET_ORDER_SELECTED,
         ADD_TYPE_FILTER, DELETE_TYPE_FILTER, FILTER, SET_SHOW_EMPTY_RESULTS,
         SET_CURRENT_PAGE, SET_PAGE_COUNT, SET_SOURCE_FILTER } from "./types";
@@ -53,14 +53,15 @@ const Reducer = (state=initialState, action) => {
                     return 0
                 }
             } );
-            
+       
             return { ...state, 
                     filteredPokemons: ordered };  
 
         case RESET_FILTERS:
             return { ...state, 
                     filteredPokemons: state.allPokemons,
-                    sourceFilterSelected: 'All' };
+                    sourceFilterSelected: 'All',
+                    typesFilterSelected: state.types.sort() };
 
         case RENDERED_POKEMONS:
             // action.payload = curent page
@@ -90,7 +91,7 @@ const Reducer = (state=initialState, action) => {
                 currentPage: action.payload };
 
         case SET_PAGE_COUNT:
-            const pages = Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons);
+            const pages = Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons);         
             return { ...state, 
                 pageCount: pages }; 
 
@@ -138,6 +139,7 @@ const Reducer = (state=initialState, action) => {
         case SET_SHOW_EMPTY_RESULTS:
             return { ...state,
                 showEmptyResults: action.payload };
+
 
         default:
             return {...state};

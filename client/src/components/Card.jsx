@@ -2,7 +2,7 @@ import styles from './Card.module.css'
 import { React, useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import * as actions from '../redux/actions';
 
 export default function Card(props) {
@@ -47,7 +47,7 @@ export default function Card(props) {
                     <Link to={`/detail/${props.name}`}>
                         <button className={styles.boton2}>Details</button>
                     </Link>
-                    {props.source === 'db' ? <button className={styles.boton2} onClick={handleDelete}>Delete</button> : null}
+                    {props.source === 'db' ? <button className={styles.boton2} onClick={() => handleDelete()}>Delete</button> : null}
                     <Link to={`/updatepokemon/${props.name}`}>
                         {props.source === 'db' ? <button className={styles.boton2} >Update</button> : null}
                     </Link>

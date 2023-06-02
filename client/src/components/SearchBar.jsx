@@ -2,7 +2,7 @@ import styles from './Searchbar.module.css'
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SearchBar({props}) {
+export default function SearchBar() {
    let [name, setName] = React.useState(''); 
    let [error, setError] = React.useState(''); 
    const navigate = useNavigate();

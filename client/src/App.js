@@ -9,16 +9,15 @@ import CreatePokemon from './components/CreatePokemon.jsx';
 import UpdatePokemon from './components/UpdatePokemon';
 
 function App() {
+    const navigate = useNavigate();
+    let location = useLocation();
+    let [access, setAccess] = useState(false);
+    useEffect(() => { !access && navigate('/'); }, [access]);
 
     function getAccess() {
         setAccess(true);
         navigate('/home');
     }
-
-     const navigate = useNavigate();
-     let location = useLocation();
-     let [access, setAccess] = useState(false);
-     useEffect(() => { !access && navigate('/'); }, [access]);
      
     return (
     <div id='App' className="App">

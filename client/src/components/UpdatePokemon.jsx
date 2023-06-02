@@ -5,6 +5,7 @@ import * as actions from '../redux/actions';
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import inputsValidation from '../inputsValidation';
 
 // https://www.pokemon.com/static-assets/app/static3/img/og-default-image.jpeg
 
@@ -15,18 +16,17 @@ export default function UpdatePokemon () {
     const { name } = useParams();
     let [userData, setUserData] = useState({name: '', image: '', health: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0 });
     let [id, setId] = useState(0);
-    let [errors, setErrors] = useState({});
-    let [disabled, setDisabled] = useState(true);
+    let [errors, setErrors] = useState({ name: '', image: '', health: '', attack: '', defense: '', speed: '', height: '', weight: '', disabled: true });
     let [dataLoaded, setDataLoaded] = useState(false);
-    const loadDataDone = useSelector(state => state.loadDataDone);
     const types = useSelector(state => state.types);
+    const allPokemons = useSelector(state => state.allPokemons);
     const [checkboxStatus, setCheckboxStatus] = useState([false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false ]);
 
 
     function handleChange(event) {
         setUserData({...userData, [event.target.name]: event.target.value});
-        setErrors(validate({...userData, [event.target.name]: event.target.value}));
+        setErrors(inputsValidation({...userData, [event.target.name]: event.target.value}, checkboxStatus));
     }
     
     const handleUpdate = async (event) => {
@@ -43,6 +43,7 @@ export default function UpdatePokemon () {
             const aDelete = await axios.delete('http://localhost:3001/pokemons/' + userData.id );
             const aPost = await axios.post('http://localhost:3001/pokemons', userData);
 
+            // force reload of data on Home after creating a pokemon
             dispatch(actions.setLoadDataDone(false));
             alert('Pockemon ' + userData.name + ' updated !');
             navigate('/home');
@@ -55,105 +56,74 @@ export default function UpdatePokemon () {
             alert('Error updating pokemon on db: ' + error.response.data);
         }
     }
-
-    function validate(inputs) {
-        const regExp_letters = new RegExp(/^[A-Za-z]+$/);
-        const regExp_image = new RegExp(/(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?/);
-        const regExp_numbers = new RegExp(/^[1-9]+[0-9]*$/);
-        const regExp_numbersdecimal = new RegExp(/\+?(\d+(\.(\d+)?)?|\.\d+)/);
-
-        let err = { name: '', image: '', health: '', attack: '', defense: '', speed: '', height: '', weight: '' };
-        
-        if (!regExp_letters.test(inputs.name)) 
-            err.name = 'Only letters are allowed !';
-        if (!regExp_image.test(inputs.image))
-            err.image = 'URL must belong to an image file !';
-        if (!regExp_numbers.test(inputs.health))
-            err.health = 'Health must be an integer positive number !';
-        else
-            if (inputs.health > 500)
-                err.health = 'Health must be a below 500 !';
-        if (!regExp_numbers.test(inputs.attack))
-            err.attack = 'Attack must be an integer positive number !';
-        else
-            if (inputs.attack > 99)
-                err.attack = 'Health must be a below 99 !';
-        if (!regExp_numbers.test(inputs.defense))
-            err.defense = 'Defense must be an integer positive number !';
-        else
-            if (inputs.defense > 252)
-                err.defense = 'Health must be a below 252 !';
-        if (!regExp_numbers.test(inputs.speed))
-            err.speed = 'Speed must be an integer positive number !';
-        else
-            if (inputs.speed > 222)
-                err.speed = 'Health must be a below 222 !';
-        if (!regExp_numbersdecimal.test(inputs.height))
-            err.height = 'Height must be a positive number !';
-        if (!regExp_numbersdecimal.test(inputs.weight))
-            err.weight = 'Weight must be a positive number !';
-
-        // Determine if input fields are good for submit
-        const chkbox = checkboxStatus.find( check => check === true);
-        let errFree = { name: '', image: '', health: '', attack: '', defense: '', speed: '', height: '', weight: '' };
-        if (JSON.stringify(err) === JSON.stringify(errFree) && chkbox)
-            setDisabled(false);
-        else    
-            setDisabled(true);
-        return err;
-    }
-
+    
     const handleFilterType = (event) => {
         const index = types.findIndex( (type) => type === event.target.value);
         let arrAux = checkboxStatus;
         arrAux[index] = !arrAux[index];
         setCheckboxStatus(arrAux);
-        setErrors(validate({...userData, [event.target.name]: event.target.value}));
+        setErrors(inputsValidation({...userData, [event.target.name]: event.target.value}, checkboxStatus));
     }
     
     function goHome() {
-        // force reload of data on Home after creating a pokemon
-        dispatch(actions.setLoadDataDone(false));
         navigate('/home');
     }
     
-    useEffect(() => { }, [setCheckboxStatus]);
-
     useEffect(() => {     
-        axios(`http://localhost:3001/pokemons/?name=${name}`)
-        .then(({ data }) => {
-            userData.name = data.name;
-            userData.image = data.image;
-            userData.health = data.health;
-            userData.attack = data.attack;
-            userData.defense = data.defense;
-            userData.speed = data.speed;
-            userData.height = data.height;
-            userData.weight = data.weight;
-            userData['Types'] = data.Types;
-            setId(data.id);
-
-            // Mirror types to checkboxes
-            for (let i=0; i < userData.Types.length; i++) {
-                let index = types.findIndex( type => type === userData.Types[i] )
-                checkboxStatus[index] = true;
-            }
+        // Check if pokemon is already in store
+        const pokemonStored = allPokemons.find( (pokemon) => pokemon.name === name);
+        if (pokemonStored) {
+            userData.name = pokemonStored.name;
+            userData.image = pokemonStored.image;
+            userData.health = pokemonStored.health;
+            userData.attack = pokemonStored.attack;
+            userData.defense = pokemonStored.defense;
+            userData.speed = pokemonStored.speed;
+            userData.height = pokemonStored.height;
+            userData.weight = pokemonStored.weight;
+            userData['Types'] = pokemonStored.Types;
+            setId(pokemonStored.id);
             setDataLoaded(true);
-            setDisabled(false);
-        })
-        .catch((error) => {
-            setDataLoaded(true);
-            console.log('No pokemon found with that name');
-        })
+        } else {
+            // Request info to server
+            axios(`http://localhost:3001/pokemons/?name=${name}`)
+            .then(({ data }) => {
+                userData.name = data.name;
+                userData.image = data.image;
+                userData.health = data.health;
+                userData.attack = data.attack;
+                userData.defense = data.defense;
+                userData.speed = data.speed;
+                userData.height = data.height;
+                userData.weight = data.weight;
+                userData['Types'] = data.Types;
+                setId(data.id); 
+                setDataLoaded(true);        
+            })
+            .catch((error) => {
+                console.log('No pokemon found with that name');
+            })
+        }
+        // Mirror types to checkboxes
+        for (let i=0; i < userData.Types.length; i++) {
+            let index = types.findIndex( type => type === userData.Types[i] )
+            checkboxStatus[index] = true;
+        }
     }, []);
 
     return ( !dataLoaded ? (<div></div> )
         :
         <div id='createpokemon' key='createpokemon' className={styles.create}>
-            <div id='close' key='close' className={styles.close}>
-                <button type='button' className={styles.boton2} onClick={goHome}> X </button>
+
+            <div id='top' key='top' className={styles.divtop}>
+                <div id='title' key='title' className={styles.divtitle}>
+                <h1 className={styles.title}>Update Pokemon</h1>
+                </div>
+                <div id='close' key='close' className={styles.close}>
+                    <button type='button' className={styles.boton2} onClick={goHome}> X </button>
+                </div>
             </div>
-            <h1 className={styles.title}>Update Pokemon</h1>
+
             <form onSubmit={handleUpdate} className={styles.form}> 
             <div id='fields' key='fields'>
                 <div id='f1' key='f1'>
@@ -221,7 +191,7 @@ export default function UpdatePokemon () {
                     )) }
                 </div>
             </form> 
-                <button type='button' onClick={handleUpdate} className={styles.boton2} disabled={disabled}> Update Pokemon </button>
+                <button type='button' onClick={handleUpdate} className={styles.boton2} disabled={errors.disabled}> Update Pokemon </button>
         </div>
     )
 }

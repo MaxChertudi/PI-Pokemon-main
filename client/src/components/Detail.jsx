@@ -2,23 +2,31 @@ import styles from './Detail.module.css';
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotFound from './NotFound';
 
 export default function Detail() {
     let [pokemon, setPokemon] = useState({}); 
     let [dataLoaded, setDataLoaded] = useState(false);
+    const allPokemons = useSelector(state => state.allPokemons);
     const { name } = useParams();
 
     useEffect(() => {     
-        axios(`http://localhost:3001/pokemons/?name=${name}`)
-        .then(({ data }) => {
-            setPokemon(data);
-            setDataLoaded(true);
-        })
-        .catch((error) => {
-            setDataLoaded(true);
-            console.log('No pokemon found with that name');
-        })
+        // Check if pokemon is already in store
+        const pokemonStored = allPokemons.find( (pokemon) => pokemon.name === name);
+        if (pokemonStored) {
+            setPokemon(pokemonStored);
+        } else {
+            // Request info to server
+            axios(`http://localhost:3001/pokemons/?name=${name}`)
+            .then(({ data }) => {
+                setPokemon(data);
+            })
+            .catch((error) => {
+                console.log('No pokemon found with that name');
+            })
+        }
+        setDataLoaded(true);
     }, [name]);
 
     return (
@@ -44,7 +52,7 @@ export default function Detail() {
                      <h3> Weight : {pokemon.weight}</h3> 
                      <h3> Types : </h3> 
                     <div id='Types' key='Types' className={styles.types}>
-                        {pokemon.Types?.map(type => <h3 className={styles.info} key={type}> {type} </h3>)}
+                        {pokemon.Types?.map(type => <h4 className={styles.type} key={type}> {type} </h4>)}
                     </div>
                   </div>
              </div>
