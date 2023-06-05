@@ -1,10 +1,10 @@
-.landing {
+.loading {
   display:flex;
   flex-direction:column;
   justify-content: center;
   width: 350px;
   height: 450px;
-  background-color: rgba(115, 117, 115, 0.775);
+  background-color: rgba(115, 117, 115, 0.655);
   border-radius: 55px;
   border: 2px;
   margin: 0;
@@ -12,7 +12,6 @@
   top: 20%;
   left: 40%;
   padding: 0px;
-  color:white;
 }
 .img {
   border-radius: 4px;
@@ -20,8 +19,9 @@
   width: 256;
   }
 .title {
+  padding-top: 40px;
   margin: 0;
-  color: crimson;
-  font-size: 50px;
+  color:white;
+  font-size: 40px;
   font-weight: 900;
 }

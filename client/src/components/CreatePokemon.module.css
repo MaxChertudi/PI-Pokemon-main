@@ -53,7 +53,7 @@
 }
 .danger {
   margin-bottom: 0;
-  color: rgb(134, 25, 3);
+  color: rgb(145, 28, 5);
 }
 .title {
   margin: 0;
@@ -75,15 +75,6 @@
   padding-left: 30px;
   margin: 0px;
   padding-top: 0;
-}
-.buttons {
-  /* display:flex;
-  flex-direction:row;
-  flex-wrap: wrap; */
-  background-color: rgba(115, 117, 115, 0.187);
-  border-radius: 15px;
-  width:500px;
-  height:60px;
 }
 .input {
   width: 15px;

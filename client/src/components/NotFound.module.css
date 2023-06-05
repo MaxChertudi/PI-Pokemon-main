@@ -20,8 +20,8 @@
   margin: 0;
   position: absolute;
   top: 10%;
-  left: 20%;
-  background-color: rgba(212, 161, 161, 0.783);
+  left: 30%;
+  background-color: rgba(245, 246, 161, 0.914);
 }
 
 .title {
@@ -31,7 +31,6 @@
   font-weight: 900;
 }
 
-  
   .boton2 {
     position: absolute;
     right: 50;

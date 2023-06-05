@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import Loading from './Loading';
 
 export default function LandingPage () {  
+    const allPokemons = useSelector(state => state.allPokemons);
     const renderedPokemons = useSelector(state => state.renderedPokemons);
     const sourceFilterSelected = useSelector(state => state.sourceFilterSelected);
     const orderSelected = useSelector(state => state.orderSelected);
@@ -23,7 +24,8 @@ export default function LandingPage () {
         event.preventDefault();
         dispatch(actions.setOrderSelected(event.target.value));
         dispatch(actions.orderCards(event.target.value));
-        dispatch(actions.renderPokemons(1));
+        setPage(currentPage);
+        dispatch(actions.renderPokemons(currentPage));
     }
      
     const handleFilterSource = (event) => {
@@ -110,21 +112,27 @@ export default function LandingPage () {
 
     // Load initial data
     useEffect(() => {  
-        dispatch(actions.setShowEmptyResults(false));     
         if (!loadDataDone) {
-            dispatch(actions.getTypes());
+            if (types.length === 0) {
+                dispatch(actions.getTypes());
+                // Add types to filter at startup
+                types?.map( (type) => { dispatch(actions.addTypeFilter(type)); } );
+            }
             dispatch(actions.getAllPokemons());
-
-            // Add types to filter at startup
-            types?.map( (type) => { dispatch(actions.addTypeFilter(type)); } );
-
             dispatch(actions.setOrderSelected(orderSelected));
             dispatch(actions.orderCards(orderSelected));
             dispatch(actions.setPageCount());
             dispatch(actions.renderPokemons(1));
             setPage(1);
         }
-}, [loadDataDone]);
+    }, [loadDataDone]);
+
+    useEffect(() => { 
+        dispatch(actions.orderCards(orderSelected));
+        if (allPokemons.length > 0)
+            dispatch(actions.filter());
+        dispatch(actions.renderPokemons(1));
+     }, [allPokemons]);
 
     return (!loadDataDone ? (<div id='load' key='load'><Loading></Loading></div>)
         :

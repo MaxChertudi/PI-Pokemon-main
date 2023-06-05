@@ -41,6 +41,7 @@ export default function Detail() {
                     <Link to={'/home'} > 
                         <button className={styles.boton2}> X </button>
                     </Link>
+                    <br></br>
                      <h2> Details of </h2> 
                      <h2> {pokemon.name}</h2> 
                      <br></br>

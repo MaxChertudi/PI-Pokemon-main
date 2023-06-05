@@ -3,27 +3,30 @@
     display:flex;
     text-align: center;
     flex-direction:row;
-    padding-left: 0px;
+    padding-left: 60px;
     width: 100%
   }
 
   .input {
-    background-color: rgb(202, 157, 73);
+    background-color: rgb(234, 239, 240);
     margin: 4px;
 
   }
   .error {
-    width: 170px;
+    width: 180px;
+    padding: 0px;
     margin: 0px;
+    margin-right: 0px;
+    border: 0px;
     font-size: small;
     background-color: rgb(195, 49, 49);
   }
   .sb1 {
-    width: 170px;
+    width: 190px;
     font-size: small;
   }
 .sb2 {
-  width: 50px;
+  width: 10px;
 }
 
 .sb3 {

@@ -24,6 +24,7 @@ const Reducer = (state=initialState, action) => {
     switch (action.type) {
 
         case GET_POKEMONS:
+    console.log('get pok');
             return { ...state, 
                     loadDataDone: true,
                     pokemonsLoaded: action.payload.length,
@@ -70,6 +71,7 @@ const Reducer = (state=initialState, action) => {
             const endPosition = action.payload * state.MaxRenderedPokemons;
             const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);
             return { ...state, 
+                    currentPage : action.payload,
                     renderedPokemons: pokemonsToRender };
                             
         case ADD_TYPE_FILTER:
