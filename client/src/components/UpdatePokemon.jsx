@@ -69,6 +69,17 @@ export default function UpdatePokemon () {
         navigate('/home');
     }
     
+    const getData= async (name) => {
+        await axios(`http://localhost:3001/pokemons/?name=${name}`)
+        .then(({ data }) => {
+            return (data);
+        })
+        .catch((error) => {
+            console.log('No pokemon found with that name');
+            return {};
+        })
+    }
+
     useEffect(() => {     
         // Check if pokemon is already in store
         const pokemonStored = allPokemons.find( (pokemon) => pokemon.name === name);
@@ -86,23 +97,18 @@ export default function UpdatePokemon () {
             setDataLoaded(true);
         } else {
             // Request info to server
-            axios(`http://localhost:3001/pokemons/?name=${name}`)
-            .then(({ data }) => {
-                userData.name = data.name;
-                userData.image = data.image;
-                userData.health = data.health;
-                userData.attack = data.attack;
-                userData.defense = data.defense;
-                userData.speed = data.speed;
-                userData.height = data.height;
-                userData.weight = data.weight;
-                userData['Types'] = data.Types;
-                setId(data.id); 
-                setDataLoaded(true);        
-            })
-            .catch((error) => {
-                console.log('No pokemon found with that name');
-            })
+            const data = getData(name);
+            userData.name = data.name;
+            userData.image = data.image;
+            userData.health = data.health;
+            userData.attack = data.attack;
+            userData.defense = data.defense;
+            userData.speed = data.speed;
+            userData.height = data.height;
+            userData.weight = data.weight;
+            userData['Types'] = data.Types;
+            setId(data.id); 
+            setDataLoaded(true);        
         }
         // Mirror types to checkboxes
         for (let i=0; i < userData.Types.length; i++) {

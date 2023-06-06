@@ -11,6 +11,16 @@ export default function Detail() {
     const allPokemons = useSelector(state => state.allPokemons);
     const { name } = useParams();
 
+    const getData= async (name) => {
+        await axios(`http://localhost:3001/pokemons/?name=${name}`)
+        .then(({ data }) => {
+            setPokemon(data);
+        })
+        .catch((error) => {
+            console.log('No pokemon found with that name');
+        })
+    }
+
     useEffect(() => {     
         // Check if pokemon is already in store
         const pokemonStored = allPokemons.find( (pokemon) => pokemon.name === name);
@@ -18,16 +28,11 @@ export default function Detail() {
             setPokemon(pokemonStored);
         } else {
             // Request info to server
-            axios(`http://localhost:3001/pokemons/?name=${name}`)
-            .then(({ data }) => {
-                setPokemon(data);
-            })
-            .catch((error) => {
-                console.log('No pokemon found with that name');
-            })
+            // 
+            getData(name);
         }
         setDataLoaded(true);
-    }, [name]);
+    }, []);
 
     return (
         !dataLoaded ? (<div></div> )

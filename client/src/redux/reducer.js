@@ -24,7 +24,6 @@ const Reducer = (state=initialState, action) => {
     switch (action.type) {
 
         case GET_POKEMONS:
-    console.log('get pok');
             return { ...state, 
                     loadDataDone: true,
                     pokemonsLoaded: action.payload.length,
