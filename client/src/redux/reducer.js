@@ -128,6 +128,7 @@ const Reducer = (state=initialState, action) => {
                 alert('That combination of filters has empty results.');
             }
             return { ...state, 
+                pageCount: Math.ceil(finalFilter.length / state.MaxRenderedPokemons),
                 filteredPokemons: finalFilter };
                 
         case SET_LOAD_DATA_DONE:

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from './Pagination.module.css';
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from '../redux/actions';
+import { useSelector } from "react-redux";
 
 export default function Pagination({ setPage, previousPage, nextPage }) {
 
@@ -11,8 +10,6 @@ export default function Pagination({ setPage, previousPage, nextPage }) {
   const pageNumbers = [];
   
     const pageCount = Math.ceil(filteredPokemons.length / MaxRenderedPokemons);
-    const dispatch = useDispatch();
-    dispatch(actions.setPageCount());
     for (let i = 0; i < pageCount; i++) {
       pageNumbers.push(i + 1);
     }

@@ -1,6 +1,6 @@
 import styles from './Card.module.css'
 import { React, useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import {  useDispatch } from "react-redux";
 import * as actions from '../redux/actions';
@@ -8,7 +8,6 @@ import * as actions from '../redux/actions';
 export default function Card(props) {
     let [pokemon, setPokemon] = useState({}); 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
