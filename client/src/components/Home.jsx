@@ -105,7 +105,7 @@ export default function LandingPage () {
         // Refreshes conent of Home based on selections
         dispatch(actions.filter());
         dispatch(actions.orderCards(orderSelected));
-        dispatch(actions.renderPokemons(1));
+        dispatch(actions.renderPokemons(currentPage));//1
     }
 
     // Load initial data
@@ -118,17 +118,18 @@ export default function LandingPage () {
             }
             dispatch(actions.getAllPokemons());
             dispatch(actions.setOrderSelected(orderSelected));
-            dispatch(actions.orderCards(orderSelected));
+            //dispatch(actions.orderCards(orderSelected));
             dispatch(actions.setPageCount());
-            dispatch(actions.renderPokemons(1));
-            setPage(1);
+            setPage(currentPage);
+            dispatch(actions.renderPokemons(currentPage));
         }
+        dispatch(actions.orderCards(orderSelected));
     }, [loadDataDone]);
 
     useEffect(() => { 
-        dispatch(actions.orderCards(orderSelected));
         if (allPokemons.length > 0)
             dispatch(actions.filter());
+        dispatch(actions.orderCards(orderSelected));
         dispatch(actions.renderPokemons(1));
      }, [allPokemons]);
 

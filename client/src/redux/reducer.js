@@ -16,7 +16,7 @@ const initialState = {
     checkboxStatus: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true ],
     sourceFilterSelected: 'All',
     orderSelected: 'A-Z',
-    currentPage : 0,
+    currentPage : 1,
     pageCount : 0,
     showEmptyResults: false
  };
@@ -67,11 +67,10 @@ const Reducer = (state=initialState, action) => {
 
         case RENDERED_POKEMONS:
             // action.payload = curent page
-            const startPosition = action.payload * state.MaxRenderedPokemons - state.MaxRenderedPokemons;
-            const endPosition = action.payload * state.MaxRenderedPokemons;
-            const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);
+            const startPosition = state.currentPage * state.MaxRenderedPokemons - state.MaxRenderedPokemons;
+            const endPosition = state.currentPage * state.MaxRenderedPokemons;
+            const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);          
             return { ...state, 
-                    currentPage : action.payload,
                     renderedPokemons: pokemonsToRender };
                             
         case ADD_TYPE_FILTER:
