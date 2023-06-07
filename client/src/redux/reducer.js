@@ -66,7 +66,6 @@ const Reducer = (state=initialState, action) => {
                     typesFilterSelected: state.types.sort() };
 
         case RENDERED_POKEMONS:
-            // action.payload = curent page
             const startPosition = state.currentPage * state.MaxRenderedPokemons - state.MaxRenderedPokemons;
             const endPosition = state.currentPage * state.MaxRenderedPokemons;
             const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);          
