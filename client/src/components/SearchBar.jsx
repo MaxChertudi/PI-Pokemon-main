@@ -9,7 +9,6 @@ export default function SearchBar() {
    const navigate = useNavigate();
 
     const handleChange = (event) => {
-        //event.preventDefault();
         setName(event.target.value);
         setError('');
         setDisabled(false);
