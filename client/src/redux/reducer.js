@@ -1,4 +1,4 @@
-import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_LOAD_DATA_DONE, 
+import { GET_POKEMONS, ORDER, RENDERED_POKEMONS, SET_LOAD_DATA_DONE, SET_CHECKBOX_STATUS,
         FILTER_BY_SOURCE, RESET_FILTERS, GET_TYPES, SET_ORDER_SELECTED,
         ADD_TYPE_FILTER, DELETE_TYPE_FILTER, FILTER, SET_SHOW_EMPTY_RESULTS,
         SET_CURRENT_PAGE, SET_PAGE_COUNT, SET_SOURCE_FILTER } from "./types";
@@ -13,6 +13,7 @@ const initialState = {
     MaxRenderedPokemons: 12,
     types: [],
     typesFilterSelected: [],
+    checkboxStatus: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true ],
     sourceFilterSelected: 'All',
     orderSelected: 'A-Z',
     currentPage : 0,
@@ -93,9 +94,8 @@ const Reducer = (state=initialState, action) => {
                 currentPage: action.payload };
 
         case SET_PAGE_COUNT:
-            const pages = Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons);         
             return { ...state, 
-                pageCount: pages }; 
+                pageCount: Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons) }; 
 
         case SET_SOURCE_FILTER:
             return { ...state, 
@@ -141,7 +141,10 @@ const Reducer = (state=initialState, action) => {
         case SET_SHOW_EMPTY_RESULTS:
             return { ...state,
                 showEmptyResults: action.payload };
-
+                
+        case SET_CHECKBOX_STATUS:
+            return { ...state,
+                checkboxStatus: action.payload };
 
         default:
             return {...state};

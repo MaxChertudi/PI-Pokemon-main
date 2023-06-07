@@ -15,10 +15,8 @@ export default function LandingPage () {
     const pageCount = useSelector(state => state.pageCount);
     const loadDataDone = useSelector(state => state.loadDataDone);
     const types = useSelector(state => state.types);
+    const checkboxStatus = useSelector(state => state.checkboxStatus);
     const dispatch = useDispatch();
-    const [checkboxStatus, setCheckboxStatus] = useState([true, true, true, true, true, true, true, 
-                                                true, true, true, true, true, true, true,
-                                                true, true, true, true, true, true ]);
 
     const handleOrder = (event) => {
         event.preventDefault();
@@ -46,7 +44,7 @@ export default function LandingPage () {
         const index = types.findIndex( (type) => type === event.target.value);
         let arrAux = checkboxStatus;
         arrAux[index] = !arrAux[index];
-        setCheckboxStatus(arrAux);
+        dispatch(actions.setCheckboxStatus(arrAux));
     }
 
     const handleFilterTypeClearAll = (event) => {
@@ -56,7 +54,7 @@ export default function LandingPage () {
             arrAux[index] = false;
             dispatch(actions.deleteTypeFilter(type));
         });
-        setCheckboxStatus(arrAux);
+        dispatch(actions.setCheckboxStatus(arrAux));
         updateContent();
     }
 
@@ -67,7 +65,7 @@ export default function LandingPage () {
             arrAux[index] = true;
             dispatch(actions.addTypeFilter(type));
         });
-        setCheckboxStatus(arrAux);
+        dispatch(actions.setCheckboxStatus(arrAux));
         updateContent();
     }
 
@@ -80,7 +78,7 @@ export default function LandingPage () {
             dispatch(actions.addTypeFilter(type));
         });
         dispatch(actions.filter());
-        setCheckboxStatus(arrAux);
+        dispatch(actions.setCheckboxStatus(arrAux));
         dispatch(actions.renderPokemons(1));
     }
 
