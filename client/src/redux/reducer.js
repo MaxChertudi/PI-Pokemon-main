@@ -30,7 +30,7 @@ const Reducer = (state=initialState, action) => {
                     pokemonsLoaded: action.payload.length,
                     allPokemons: action.payload,
                     filteredPokemons: action.payload,
-                    renderedPokemons: action.payload.slice(0, 12),
+                    renderedPokemons: action.payload.slice(0, state.MaxRenderedPokemons),
                     pageCount: Math.ceil(state.filteredPokemons.length / state.MaxRenderedPokemons) };
         
         case GET_TYPES:
@@ -70,6 +70,7 @@ const Reducer = (state=initialState, action) => {
             const endPosition = state.currentPage * state.MaxRenderedPokemons;
             const pokemonsToRender = state.filteredPokemons.slice(startPosition, endPosition);          
             return { ...state, 
+                    currentPage: 1,
                     renderedPokemons: pokemonsToRender };
                             
         case ADD_TYPE_FILTER:
